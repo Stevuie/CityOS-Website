@@ -7,33 +7,10 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'inter': ['Inter', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-slate-900 text-white">
+<body class="cityos-body">
     <div id="root"></div>
 
     <script type="text/babel">
@@ -50,46 +27,34 @@
                     alert('Please enter a time');
                     return;
                 }
-                
-                // Simulate prediction with random result for demo
                 const isAvailable = Math.random() > 0.5;
                 setPredictionResult(isAvailable ? 'Free' : 'Engaged');
                 setShowResult(true);
-                
-                // Reset animation
                 setTimeout(() => setShowResult(false), 0);
                 setTimeout(() => setShowResult(true), 10);
             };
 
             const Header = () => (
-                <header className="sticky top-0 z-50 bg-slate-800 border-b border-slate-700">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="flex justify-between items-center h-16">
-                            <div className="flex items-center space-x-3">
-                                <svg className="w-8 h-8 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                <header className="cityos-header">
+                    <div className="cityos-header-container">
+                        <div className="cityos-header-flex">
+                            <div className="cityos-header-logo-group">
+                                <svg className="cityos-logo" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
                                     <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1V8a1 1 0 00-1-1h-3z"/>
                                 </svg>
-                                <h1 className="text-xl font-bold text-white">CityOS Parking</h1>
+                                <h1 className="cityos-header-title">CityOS Parking</h1>
                             </div>
-                            <nav className="flex space-x-8">
+                            <nav className="cityos-header-nav">
                                 <button
                                     onClick={() => setCurrentPage('about')}
-                                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                                        currentPage === 'about'
-                                            ? 'text-blue-400 bg-blue-900/50 border-b-2 border-blue-400'
-                                            : 'text-gray-300 hover:text-white hover:bg-slate-700'
-                                    }`}
+                                    className={`cityos-btn cityos-btn-nav${currentPage === 'about' ? ' cityos-btn-nav-active' : ''}`}
                                 >
                                     About Us
                                 </button>
                                 <button
                                     onClick={() => setCurrentPage('predictor')}
-                                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                                        currentPage === 'predictor'
-                                            ? 'text-blue-400 bg-blue-900/50 border-b-2 border-blue-400'
-                                            : 'text-gray-300 hover:text-white hover:bg-slate-700'
-                                    }`}
+                                    className={`cityos-btn cityos-btn-nav${currentPage === 'predictor' ? ' cityos-btn-nav-active' : ''}`}
                                 >
                                     Parking Predictor
                                 </button>
@@ -100,65 +65,54 @@
             );
 
             const AboutPage = () => (
-                <div className="min-h-screen">
-                    {/* Hero Section */}
-                    <section className="py-20 px-4 sm:px-6 lg:px-8">
-                        <div className="max-w-4xl mx-auto text-center">
-                            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
-                                Intelligent Parking for a <span className="text-blue-500">Smarter City</span>
+                <div className="cityos-main">
+                    <section className="cityos-hero">
+                        <div className="cityos-hero-center">
+                            <h1 className="cityos-hero-title">
+                                Intelligent Parking for a <span className="cityos-highlight">Smarter City</span>
                             </h1>
-                            <p className="text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
+                            <p className="cityos-hero-desc">
                                 CityOS is a project developed under the guidance of Dr. Jorge Ortiz at WINLAB, Rutgers University. 
                                 Our goal is to leverage computer vision and machine learning to create a smart parking system that 
                                 predicts parking availability, reducing congestion and improving urban life.
                             </p>
                         </div>
                     </section>
-
-                    {/* Team Section */}
-                    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-slate-800/50">
-                        <div className="max-w-7xl mx-auto">
-                            <h2 className="text-3xl font-bold text-center mb-12">Our Team</h2>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <section className="cityos-team">
+                        <div className="cityos-team-container">
+                            <h2 className="cityos-team-title">Our Team</h2>
+                            <div className="cityos-team-grid">
                                 {[
                                     {
                                         name: "Aryan Upadhyay",
-                                        description: "Rising sophomore at Rutgers University, double majoring in Computer Science and Data Science.",
-                                        avatar: "images/avatars/aryan.png"
+                                        description: "Rising sophomore at Rutgers University, double majoring in Computer Science and Data Science."
                                     },
                                     {
                                         name: "Rohan Sada",
-                                        description: "Pursuing a Master's degree in Electrical and Computer Engineering at Rutgers University, specializing in Machine Learning.",
-                                        avatar: "images/avatars/rohan.png"
+                                        description: "Pursuing a Master's degree in Electrical and Computer Engineering at Rutgers University, specializing in Machine Learning."
                                     },
                                     {
                                         name: "Steven Huang",
-                                        description: "Rising junior at Rutgers University, pursuing a B.S. in Electrical Engineering and a minor in Computer Science.",
-                                        avatar: "images/avatars/steven.png"
+                                        description: "Rising junior at Rutgers University, pursuing a B.S. in Electrical Engineering and a minor in Computer Science."
                                     }
                                 ].map((member, index) => (
-                                    <div key={index} className="bg-slate-800 rounded-lg p-6 hover:bg-slate-700 transition-colors duration-300 transform hover:scale-105">
+                                    <div key={index} className="cityos-team-card">
                                         <img 
-                                            src={member.avatar}
+                                            src="https://placehold.co/400x400/27272a/fafafa?text=Avatar"
                                             alt={member.name}
-                                            className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
-                                            onError={(e) => {
-                                                e.target.src = "https://placehold.co/400x400/27272a/fafafa?text=" + member.name.split(' ').map(n => n[0]).join('');
-                                            }}
+                                            className="cityos-team-avatar"
                                         />
-                                        <h3 className="text-xl font-semibold text-center mb-3 text-blue-400">{member.name}</h3>
-                                        <p className="text-gray-300 text-center leading-relaxed">{member.description}</p>
+                                        <h3 className="cityos-team-name">{member.name}</h3>
+                                        <p className="cityos-team-desc">{member.description}</p>
                                     </div>
                                 ))}
                             </div>
                         </div>
                     </section>
-
-                    {/* Timeline Section */}
-                    <section className="py-16 px-4 sm:px-6 lg:px-8">
-                        <div className="max-w-4xl mx-auto">
-                            <h2 className="text-3xl font-bold text-center mb-12">Our Progress</h2>
-                            <div className="space-y-8">
+                    <section className="cityos-timeline">
+                        <div className="cityos-timeline-container">
+                            <h2 className="cityos-timeline-title">Our Progress</h2>
+                            <div className="cityos-timeline-list">
                                 {[
                                     {
                                         week: "Week 1",
@@ -188,16 +142,16 @@
                                         ]
                                     }
                                 ].map((week, index) => (
-                                    <div key={index} className="bg-slate-800 rounded-lg p-6 hover:bg-slate-700 transition-colors duration-300">
-                                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
-                                            <h3 className="text-xl font-semibold text-blue-400">{week.week}</h3>
-                                            <span className="text-gray-400 text-sm">{week.date}</span>
+                                    <div key={index} className="cityos-timeline-card">
+                                        <div className="cityos-timeline-header">
+                                            <h3 className="cityos-timeline-week">{week.week}</h3>
+                                            <span className="cityos-timeline-date">{week.date}</span>
                                         </div>
-                                        <ul className="space-y-2">
+                                        <ul className="cityos-timeline-ul">
                                             {week.accomplishments.map((item, itemIndex) => (
-                                                <li key={itemIndex} className="flex items-start">
-                                                    <span className="text-blue-500 mr-3 mt-1">•</span>
-                                                    <span className="text-gray-300">{item}</span>
+                                                <li key={itemIndex} className="cityos-timeline-li">
+                                                    <span className="cityos-timeline-dot">•</span>
+                                                    <span className="cityos-timeline-text">{item}</span>
                                                 </li>
                                             ))}
                                         </ul>
@@ -210,18 +164,17 @@
             );
 
             const PredictorPage = () => (
-                <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-md w-full space-y-8">
-                        <div className="text-center">
-                            <h1 className="text-3xl sm:text-4xl font-bold text-white mb-8">
+                <div className="cityos-predictor-main">
+                    <div className="cityos-predictor-container">
+                        <div className="cityos-predictor-titlewrap">
+                            <h1 className="cityos-predictor-title">
                                 Parking Availability Predictor
                             </h1>
                         </div>
-                        
-                        <div className="bg-slate-800 rounded-lg p-8 shadow-xl">
-                            <div className="space-y-6">
+                        <div className="cityos-predictor-panel">
+                            <div className="cityos-predictor-fields">
                                 <div>
-                                    <label htmlFor="time" className="block text-sm font-medium text-gray-300 mb-2">
+                                    <label htmlFor="time" className="cityos-predictor-label">
                                         Enter Time
                                     </label>
                                     <input
@@ -230,39 +183,37 @@
                                         value={time}
                                         onChange={(e) => setTime(e.target.value)}
                                         placeholder="Enter a time (e.g., 14:30)"
-                                        className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
+                                        className="cityos-predictor-input"
                                     />
                                 </div>
-                                
                                 <button
                                     onClick={handlePrediction}
-                                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="cityos-btn cityos-btn-primary"
                                 >
                                     Check Availability
                                 </button>
-                                
-                                <div className="min-h-[80px] flex items-center justify-center">
+                                <div className="cityos-predictor-resultwrap">
                                     {predictionResult ? (
-                                        <div className={`${showResult ? 'fade-in' : ''} w-full p-4 rounded-lg flex items-center justify-center space-x-3 ${
+                                        <div className={`cityos-predictor-result${showResult ? ' fade-in' : ''} ${
                                             predictionResult === 'Free' 
-                                                ? 'bg-green-900/50 border border-green-500 text-green-400' 
-                                                : 'bg-red-900/50 border border-red-500 text-red-400'
+                                                ? ' cityos-predictor-result-free' 
+                                                : ' cityos-predictor-result-engaged'
                                         }`}>
                                             {predictionResult === 'Free' ? (
-                                                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                                <svg className="cityos-predictor-icon" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                                                 </svg>
                                             ) : (
-                                                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                                <svg className="cityos-predictor-icon" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"/>
                                                 </svg>
                                             )}
-                                            <span className="text-lg font-semibold">
+                                            <span className="cityos-predictor-result-text">
                                                 Parking is {predictionResult}
                                             </span>
                                         </div>
                                     ) : (
-                                        <p className="text-gray-400 text-center">
+                                        <p className="cityos-predictor-placeholder">
                                             Enter a time to check parking availability
                                         </p>
                                     )}
@@ -274,7 +225,7 @@
             );
 
             return (
-                <div className="min-h-screen bg-slate-900">
+                <div className="cityos-app">
                     <Header />
                     {currentPage === 'about' ? <AboutPage /> : <PredictorPage />}
                 </div>
