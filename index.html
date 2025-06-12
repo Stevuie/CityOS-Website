@@ -103,23 +103,29 @@
                       name: "Aryan Upadhyay",
                       description:
                         "Rising sophomore at Rutgers University, double majoring in Computer Science and Data Science.",
+                                        avatar: "images/avatars/aryan.png",
                     },
                     {
                       name: "Rohan Sada",
                       description:
                         "Pursuing a Master's degree in Electrical and Computer Engineering at Rutgers University, specializing in Machine Learning.",
+                                        avatar: "images/avatars/rohan.png",
                     },
                     {
                       name: "Steven Huang",
                       description:
                         "Rising junior at Rutgers University, pursuing a B.S. in Electrical Engineering and a minor in Computer Science.",
+                                        avatar: "images/avatars/steven.png",
                     },
                   ].map((member, index) => (
                     <div key={index} className="cityos-team-card">
                       <img
-                        src="https://placehold.co/400x400/27272a/fafafa?text=Avatar"
+                        src={member.avatar}
                         alt={member.name}
                         className="cityos-team-avatar"
+                                            onError={(e) => {
+                                                e.target.src = "https://placehold.co/400x400/27272a/fafafa?text=" + member.name.split(' ').map(n => n[0]).join('');
+                                            }}
                       />
                       <h3 className="cityos-team-name">{member.name}</h3>
                       <p className="cityos-team-desc">{member.description}</p>
@@ -275,5 +281,5 @@
 
       ReactDOM.render(<App />, document.getElementById("root"));
     </script>
-  </body>
+</body>
 </html>
