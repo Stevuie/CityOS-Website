@@ -16,7 +16,7 @@ body,
 }
 
 .background {
-  background-image: url("/assets/CityOS_background.jpg");
+  background-image: url("assets/CityOS_background.jpg");
   background-blend-mode: overlay;
   background-color: #6d73337d;
   background-size: cover;
