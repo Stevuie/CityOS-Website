@@ -50,7 +50,9 @@
                     <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
                     <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1V8a1 1 0 00-1-1h-3z" />
                   </svg>
-                  <h1 className="cityos-header-title">CityOS Parking</h1>
+                  <h1 className="cityos-header-title">
+                    <span className="italic-text">City</span>OS Parking
+                  </h1>
                 </div>
                 <nav className="cityos-header-nav">
                   <button
@@ -85,17 +87,23 @@
                   Intelligent Parking for a{" "}
                   <span className="cityos-highlight">Smarter City</span>
                 </h1>
-                <p className="cityos-hero-desc">
-                  CityOS is a project developed under the guidance of Dr. Jorge
-                  Ortiz at WINLAB, Rutgers University. Our goal is to leverage
-                  computer vision and machine learning to create a smart parking
-                  system that predicts parking availability, reducing congestion
-                  and improving urban life.
-                </p>
               </div>
             </section>
             <section className="cityos-team">
               <div className="cityos-team-container">
+                <h2 className="cityos-team-title">Mission Statement</h2>
+                <p className="cityos-hero-desc">
+                  <span className="italic-text">City</span>OS is a project
+                  developed under the guidance of Dr. Jorge Ortiz at WINLAB,
+                  Rutgers University. Our goal is to leverage computer vision
+                  and machine learning to create a smart parking system that
+                  predicts parking availability, reducing congestion and
+                  improving urban life.
+                  ------
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Excepturi illum, blanditiis accusamus non magnam consectetur nisi repudiandae animi libero pariatur perferendis error, sapiente qui eaque! Adipisci laudantium magnam sunt voluptatum.
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa illo a obcaecati odio eum iusto incidunt placeat aspernatur error veniam nobis culpa maxime, pariatur repellendus dolores perspiciatis sunt? Rem, perferendis?
+                  !!placeholder text!!
+                </p>
                 <h2 className="cityos-team-title">Our Team</h2>
                 <div className="cityos-team-grid">
                   {[
@@ -278,13 +286,16 @@
 
         return (
           <div className="cityos-app">
-            <Header />
-            {currentPage === "about" ? <AboutPage /> : <PredictorPage />}
+            <div className="background">
+              <Header />
+              {currentPage === "about" ? <AboutPage /> : <PredictorPage />}
+            </div>
           </div>
         );
       }
 
       ReactDOM.render(<App />, document.getElementById("root"));
     </script>
+
   </body>
 </html>
