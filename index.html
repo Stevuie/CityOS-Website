@@ -21,20 +21,55 @@
 
       function App() {
         const [currentPage, setCurrentPage] = useState("about");
+        const [spot, setSpot] = useState('spot_1');
+        const [day, setDay] = useState('Monday');
         const [time, setTime] = useState("");
+        const [timeMode, setTimeMode] = useState('manual');
         const [predictionResult, setPredictionResult] = useState(null);
         const [showResult, setShowResult] = useState(false);
 
-        const handlePrediction = () => {
+        const commonTimes = [
+          '07:00', '08:00', '09:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'
+        ];
+
+        const handlePrediction = async () => {
           if (!time.trim()) {
             alert("Please enter a time");
             return;
           }
-          const isAvailable = Math.random() > 0.5;
-          setPredictionResult(isAvailable ? "Free" : "Engaged");
-          setShowResult(true);
-          setTimeout(() => setShowResult(false), 0);
-          setTimeout(() => setShowResult(true), 10);
+
+          const [hour, minute] = time.split(':');
+
+          try {
+            const response = await fetch('http://127.0.0.1:5000/predict', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                spot_id: spot,
+                day: day,
+                hour: hour,
+                minute: minute
+              })
+            });
+
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setPredictionResult(data.status);
+            setShowResult(true);
+            
+            // Reset animation
+            setTimeout(() => setShowResult(false), 0);
+            setTimeout(() => setShowResult(true), 10);
+
+          } catch (error) {
+            console.error('Prediction error:', error);
+            alert('Error getting prediction. Please make sure the ML server is running.');
+          }
         };
 
         const Header = () => (
@@ -219,67 +254,162 @@
 
         const PredictorPage = () => (
           <div className="cityos-predictor-main">
-            <div className="cityos-predictor-container">
+            <div className="cityos-predictor-container" style={{background: 'rgba(10,90,64,0.85)', backdropFilter: 'blur(8px)', border: '2px solid #c7f361', borderRadius: '1rem', boxShadow: '0 8px 32px 0 #0003', padding: '2.5rem 2rem', marginTop: '2rem'}}>
               <div className="cityos-predictor-titlewrap">
                 <h1 className="cityos-predictor-title">
                   Parking Availability Predictor
                 </h1>
               </div>
-              <div className="cityos-predictor-panel">
+              <div className="cityos-predictor-panel" style={{background: 'transparent', boxShadow: 'none', padding: 0}}>
                 <div className="cityos-predictor-fields">
                   <div>
-                    <label htmlFor="time" className="cityos-predictor-label">
-                      Enter Time
+                    <label htmlFor="spot-id" className="cityos-predictor-label">
+                      Select Parking Spot
                     </label>
-                    <input
-                      type="text"
-                      id="time"
-                      value={time}
-                      onChange={(e) => setTime(e.target.value)}
-                      placeholder="Enter a time (e.g., 14:30)"
+                    <select
+                      id="spot-id"
+                      value={spot}
+                      onChange={e => setSpot(e.target.value)}
                       className="cityos-predictor-input"
-                    />
+                      style={{background: '#334155', color: '#fff', border: '1px solid #c7f361'}}
+                      aria-label="Select Parking Spot"
+                    >
+                      <option value="spot_1">Spot 1</option>
+                      <option value="spot_2">Spot 2</option>
+                      <option value="spot_3">Spot 3</option>
+                      <option value="spot_4">Spot 4</option>
+                      <option value="spot_5">Spot 5</option>
+                      <option value="spot_6">Spot 6</option>
+                      <option value="spot_10">Spot 10</option>
+                      <option value="spot_12">Spot 12</option>
+                      <option value="spot_13">Spot 13</option>
+                      <option value="spot_14">Spot 14</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="day" className="cityos-predictor-label">
+                      Select Day
+                    </label>
+                    <select
+                      id="day"
+                      value={day}
+                      onChange={e => setDay(e.target.value)}
+                      className="cityos-predictor-input"
+                      style={{background: '#334155', color: '#fff', border: '1px solid #c7f361'}}
+                      aria-label="Select Day"
+                    >
+                      <option value="Monday">Monday</option>
+                      <option value="Tuesday">Tuesday</option>
+                      <option value="Wednesday">Wednesday</option>
+                      <option value="Thursday">Thursday</option>
+                      <option value="Friday">Friday</option>
+                      <option value="Saturday">Saturday</option>
+                      <option value="Sunday">Sunday</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="cityos-predictor-label">Enter Time</label>
+                    <div style={{display: 'flex', gap: '1rem', marginBottom: '0.5rem'}}>
+                      <label style={{color: '#c7f361'}}>
+                        <input type="radio" name="timeMode" value="manual" checked={timeMode === 'manual'} onChange={() => setTimeMode('manual')} />
+                        Manual
+                      </label>
+                      <label style={{color: '#c7f361'}}>
+                        <input type="radio" name="timeMode" value="dropdown" checked={timeMode === 'dropdown'} onChange={() => setTimeMode('dropdown')} />
+                        Dropdown
+                      </label>
+                    </div>
+                    {timeMode === 'manual' ? (
+                      <input
+                        type="time"
+                        id="time"
+                        value={time}
+                        onChange={e => setTime(e.target.value)}
+                        step="900"
+                        className="cityos-predictor-input"
+                        style={{
+                          background: '#334155',
+                          color: '#fff',
+                          border: time ? '2px solid #c7f361' : '1px solid #c7f361',
+                          fontSize: '1.2rem',
+                          padding: '1rem',
+                          outline: time ? '2px solid #c7f361' : 'none',
+                          boxShadow: time ? '0 0 0 2px #c7f36155' : 'none',
+                          transition: 'all 0.2s',
+                          marginBottom: '0.5rem',
+                          width: '100%'
+                        }}
+                        aria-label="Enter Time"
+                      />
+                    ) : (
+                      <select
+                        id="time-dropdown"
+                        value={time}
+                        onChange={e => setTime(e.target.value)}
+                        className="cityos-predictor-input"
+                        style={{
+                          background: '#334155',
+                          color: '#fff',
+                          border: time ? '2px solid #c7f361' : '1px solid #c7f361',
+                          fontSize: '1.2rem',
+                          padding: '1rem',
+                          outline: time ? '2px solid #c7f361' : 'none',
+                          boxShadow: time ? '0 0 0 2px #c7f36155' : 'none',
+                          transition: 'all 0.2s',
+                          marginBottom: '0.5rem',
+                          width: '100%'
+                        }}
+                        aria-label="Select Time"
+                      >
+                        <option value="">-- Select a time --</option>
+                        {commonTimes.map(t => (
+                          <option key={t} value={t}>{t}</option>
+                        ))}
+                      </select>
+                    )}
+                    {time && (
+                      <div style={{color: '#c7f361', fontWeight: 600, marginTop: '-0.5rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
+                        <svg width="20" height="20" fill="#c7f361" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
+                        Time entered!
+                      </div>
+                    )}
                   </div>
                   <button
                     onClick={handlePrediction}
                     className="cityos-btn cityos-btn-primary"
+                    style={{
+                      background: time ? '#c7f361' : '#c7f36155',
+                      color: '#14222b',
+                      fontWeight: 700,
+                      border: 'none',
+                      marginTop: '0.5rem',
+                      fontSize: '1.2rem',
+                      padding: '1rem',
+                      cursor: time ? 'pointer' : 'not-allowed',
+                      opacity: time ? 1 : 0.6,
+                      transition: 'all 0.2s',
+                      width: '100%'
+                    }}
+                    type="button"
+                    disabled={!time}
+                    aria-label="Check Availability"
                   >
                     Check Availability
                   </button>
                   <div className="cityos-predictor-resultwrap">
                     {predictionResult ? (
-                      <div
-                        className={`cityos-predictor-result${
-                          showResult ? " fade-in" : ""
-                        } ${
-                          predictionResult === "Free"
-                            ? " cityos-predictor-result-free"
-                            : " cityos-predictor-result-engaged"
-                        }`}
-                      >
-                        {predictionResult === "Free" ? (
-                          <svg
-                            className="cityos-predictor-icon"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                              clipRule="evenodd"
-                            />
+                      <div className={`cityos-predictor-result${showResult ? ' fade-in' : ''} ${
+                        predictionResult === 'Free'
+                          ? ' cityos-predictor-result-free'
+                          : ' cityos-predictor-result-engaged'
+                      }`}>
+                        {predictionResult === 'Free' ? (
+                          <svg className="cityos-predictor-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                           </svg>
                         ) : (
-                          <svg
-                            className="cityos-predictor-icon"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                              clipRule="evenodd"
-                            />
+                          <svg className="cityos-predictor-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"/>
                           </svg>
                         )}
                         <span className="cityos-predictor-result-text">
