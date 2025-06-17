@@ -57,6 +57,9 @@ def predict():
         prediction_status = 'Occupied' if prediction_numeric == 1 else 'Free'
         confidence = prediction_proba[np.argmax(prediction_proba)]
 
+        # Debug print
+        print(f"Input: {data}, Prediction: {prediction_status}, Confidence: {confidence:.2%}")
+
         # Return the result as JSON
         return jsonify({
             'status': prediction_status,
@@ -64,6 +67,7 @@ def predict():
         })
 
     except Exception as e:
+        print(f"Error: {e}")
         return jsonify({'error': str(e)}), 400
 
 @app.after_request
