@@ -233,23 +233,23 @@
         );
 
         const PredictorPage = () => (
-          <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8">
-              <div className="text-center">
-                <h1 className="text-3xl sm:text-4xl font-bold text-white mb-8">
+          <div className="cityos-predictor-main">
+            <div className="cityos-predictor-container" style={{background: 'rgba(10,90,64,0.85)', backdropFilter: 'blur(8px)', border: '2px solid #c7f361', borderRadius: '1rem', boxShadow: '0 8px 32px 0 #0003', padding: '2.5rem 2rem', marginTop: '2rem'}}>
+              <div className="cityos-predictor-titlewrap">
+                <h1 className="cityos-predictor-title">
                   Parking Availability Predictor
                 </h1>
               </div>
-              
-              <div className="bg-slate-800 rounded-lg p-8 shadow-xl">
-                <div className="space-y-6">
+              <div className="cityos-predictor-panel" style={{background: 'transparent', boxShadow: 'none', padding: 0}}>
+                <div className="cityos-predictor-fields">
                   <div>
-                    <label htmlFor="spot-id" className="block text-sm font-medium text-gray-300 mb-2">
+                    <label htmlFor="spot-id" className="cityos-predictor-label">
                       Select Parking Spot
                     </label>
                     <select
                       id="spot-id"
-                      className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
+                      className="cityos-predictor-input"
+                      style={{background: '#334155', color: '#fff', border: '1px solid #c7f361'}}
                     >
                       <option value="spot_1">Spot 1</option>
                       <option value="spot_2">Spot 2</option>
@@ -263,14 +263,14 @@
                       <option value="spot_14">Spot 14</option>
                     </select>
                   </div>
-
                   <div>
-                    <label htmlFor="day" className="block text-sm font-medium text-gray-300 mb-2">
+                    <label htmlFor="day" className="cityos-predictor-label">
                       Select Day
                     </label>
                     <select
                       id="day"
-                      className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
+                      className="cityos-predictor-input"
+                      style={{background: '#334155', color: '#fff', border: '1px solid #c7f361'}}
                     >
                       <option value="Monday">Monday</option>
                       <option value="Tuesday">Tuesday</option>
@@ -281,48 +281,47 @@
                       <option value="Sunday">Sunday</option>
                     </select>
                   </div>
-
                   <div>
-                    <label htmlFor="time" className="block text-sm font-medium text-gray-300 mb-2">
+                    <label htmlFor="time" className="cityos-predictor-label">
                       Enter Time
                     </label>
                     <input
                       type="time"
                       id="time"
                       onChange={(e) => setTime(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
+                      className="cityos-predictor-input"
+                      style={{background: '#334155', color: '#fff', border: '1px solid #c7f361'}}
                     />
                   </div>
-                  
                   <button
                     onClick={handlePrediction}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="cityos-btn cityos-btn-primary"
+                    style={{background: '#c7f361', color: '#14222b', fontWeight: 700, border: 'none', marginTop: '0.5rem'}}
                   >
                     Check Availability
                   </button>
-                  
-                  <div className="min-h-[80px] flex items-center justify-center">
+                  <div className="cityos-predictor-resultwrap">
                     {predictionResult ? (
-                      <div className={`${showResult ? 'fade-in' : ''} w-full p-4 rounded-lg flex items-center justify-center space-x-3 ${
-                        predictionResult === 'Free' 
-                          ? 'bg-green-900/50 border border-green-500 text-green-400' 
-                          : 'bg-red-900/50 border border-red-500 text-red-400'
+                      <div className={`cityos-predictor-result${showResult ? ' fade-in' : ''} ${
+                        predictionResult === 'Free'
+                          ? ' cityos-predictor-result-free'
+                          : ' cityos-predictor-result-engaged'
                       }`}>
                         {predictionResult === 'Free' ? (
-                          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                          <svg className="cityos-predictor-icon" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                           </svg>
                         ) : (
-                          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                          <svg className="cityos-predictor-icon" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"/>
                           </svg>
                         )}
-                        <span className="text-lg font-semibold">
+                        <span className="cityos-predictor-result-text">
                           Parking is {predictionResult}
                         </span>
                       </div>
                     ) : (
-                      <p className="text-gray-400 text-center">
+                      <p className="cityos-predictor-placeholder">
                         Enter a time to check parking availability
                       </p>
                     )}
