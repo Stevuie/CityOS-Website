@@ -107,7 +107,6 @@ body,
 .cityos-hero-title {
   letter-spacing: -1px;
   font-size: 2rem;
-  font-weight: lighter;
   margin: 0 0 1rem;
   padding: 1rem 0.5rem 1rem 0.5rem;
   border-radius: 1rem;
@@ -168,7 +167,7 @@ body,
   text-align: center;
 }
 .cityos-team-card:hover {
-  background: #334155;
+  background: #0a5a4193;
   transform: translateY(-5px);
 }
 .cityos-team-avatar {
@@ -181,65 +180,93 @@ body,
 .cityos-team-name {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #60a5fa;
+  color: #fffed0;
   margin-bottom: 0.75rem;
 }
 .cityos-team-desc {
+  font-size: .8rem;
   color: #d1d5db;
   line-height: 1.5;
 }
 
 /* TIMELINE */
 .cityos-timeline {
+  width:80%;
   padding: 4rem 1rem;
+  background-color:#0a5a4193;
+  backdrop-filter: blur(2px);
 }
-.cityos-timeline-container {
-  max-width: 56rem;
+.cityos-timeline-all {
   margin: 0 auto;
 }
 .cityos-timeline-title {
-  font-size: 1.875rem;
+  font-size: 3rem;
   font-weight: bold;
-  text-align: center;
-  margin-bottom: 3rem;
+  text-align: left;
+  font-style: italic;
+  margin: 0 0 1rem 10%;
+  color: #c7f361;
+}
+
+.cityos-timeline-container{
+  display: flex;
+  justify-content: left;
+  margin-left: 10%;
+}
+
+.cityos-timeline-left{
+  width: 10px;
+  height: fill;
+  background-color:#c7f361;
+  margin-right: 10px;
+  border-radius: 5px;
 }
 .cityos-timeline-list {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 }
 .cityos-timeline-card {
-  background: #1e293b;
+  background: #46ac6b;
   border-radius: 0.5rem;
-  padding: 1.5rem;
-  transition: background 0.3s;
+  padding: 1rem;
+  width: 90%;
+  transition: background 0.3s, transform 0.3s;
 }
 .cityos-timeline-card:hover {
-  background: #334155;
+  background: #ffdca6;
+  transform: translateX(10px);
+  
 }
 .cityos-timeline-header {
   display: flex;
   flex-direction: column;
+  height: 20%;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  border-bottom: 2px solid black;
 }
-@media (min-width: 640px) {
+@media (min-width: 0) {
   .cityos-timeline-header {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    flex-shrink: 1;
   }
 }
 .cityos-timeline-week {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #60a5fa;
+  font-family:monospace;
+  font-size: 2rem;
+  font-weight:800;
+  color: #0f172a;
 }
 .cityos-timeline-date {
-  color: #94a3b8;
-  font-size: 0.875rem;
+  font-family:'Times New Roman', Times, serif;
+  color: #294942;
+  font-size: 1rem;
 }
 .cityos-timeline-ul {
+  font-family:monospace;
+  font-size: 1rem;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -248,11 +275,11 @@ body,
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
-  color: #d1d5db;
-  margin-bottom: 0.5rem;
+  color: #0f172a;
+  margin: 0.5rem 0 .5rem 0;
 }
 .cityos-timeline-dot {
-  color: #3b82f6;
+  color: #0f172a;
   margin-top: 0.25rem;
 }
 

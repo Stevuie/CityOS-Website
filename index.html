@@ -146,56 +146,71 @@
                 </div>
               </div>
             </section>
+
+
             <section className="cityos-timeline">
-              <div className="cityos-timeline-container">
+              <div className="cityos-timeline-all">
                 <h2 className="cityos-timeline-title">Our Progress</h2>
-                <div className="cityos-timeline-list">
-                  {[
-                    {
-                      week: "Week 1",
-                      date: "June 5, 2025",
-                      accomplishments: [
-                        "Met with Dr. Ortiz to define project scope.",
-                        "Narrowed focus to a smart car parking system.",
-                        "Began research into data regression models and project documentation.",
-                      ],
-                    },
-                    {
-                      week: "Week 2",
-                      date: "June 11, 2025",
-                      accomplishments: [
-                        "Drafted the detailed system design document.",
-                        "Obtained video feed of the parking lot and applied YOLOv8 for object detection.",
-                        "Outlined the system architecture, including the Data Logger, ML Model Trainer, and Prediction API.",
-                      ],
-                    },
-                    {
-                      week: "Week 3",
-                      date: "June 18, 2025",
-                      accomplishments: [
-                        "Implemented and tested three initial ML models: Linear Regression, Naive Bayes, and Gradient Boosting.",
-                        "Achieved initial prediction results on sample data.",
-                        "Began learning about Decision Tree and Random Forest algorithms for future implementation.",
-                      ],
-                    },
-                  ].map((week, index) => (
-                    <div key={index} className="cityos-timeline-card">
-                      <div className="cityos-timeline-header">
-                        <h3 className="cityos-timeline-week">{week.week}</h3>
-                        <span className="cityos-timeline-date">
-                          {week.date}
-                        </span>
+                <div className="cityos-timeline-container">
+                  <div className="cityos-timeline-left">
+                  </div>
+                  <div className="cityos-timeline-list">
+                    {[
+                      {
+                        week: "Week 1",
+                        date: "May 27th, 2025",
+                        accomplishments: [
+                          "Met with Dr. Ortiz to define project scope.",
+                          "Narrowed focus to a smart car parking system.",
+                          "Began research into data regression models and project documentation.",
+                        ],
+                      },
+                      {
+                        week: "Week 2",
+                        date: "June 2nd, 2025",
+                        accomplishments: [
+                          "Drafted the detailed system design document.",
+                          "Obtained video feed of the parking lot and applied YOLOv8 for object detection.",
+                          "Outlined the system architecture, including the Data Logger, ML Model Trainer, and Prediction API.",
+                        ],
+                      },
+                      {
+                        week: "Week 3",
+                        date: "June 9th, 2025",
+                        accomplishments: [
+                          "Implemented and tested three initial ML models: Linear Regression, Naive Bayes, and Gradient Boosting.",
+                          "Achieved initial prediction results on sample data.",
+                          "Began learning about Decision Tree and Random Forest algorithms for future implementation.",
+                        ],
+                      },
+                      {
+                        week: "Week 4",
+                        date: "June 16th 2025",
+                        accomplishments: [
+                          "Implemented and tested Decision Tree and Random Forest ML models",
+                          "Created this very website :D",
+                          "Continued with data collection and aggregation for ML models.",
+                        ],
+                      },
+                    ].map((week, index) => (
+                      <div key={index} className="cityos-timeline-card">
+                        <div className="cityos-timeline-header">
+                          <h3 className="cityos-timeline-week">{week.week}</h3>
+                          <span className="cityos-timeline-date">
+                            {week.date}
+                          </span>
+                        </div>
+                        <ul className="cityos-timeline-ul">
+                          {week.accomplishments.map((item, itemIndex) => (
+                            <li key={itemIndex} className="cityos-timeline-li">
+                              <span className="cityos-timeline-dot">•</span>
+                              <span className="cityos-timeline-text">{item}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                      <ul className="cityos-timeline-ul">
-                        {week.accomplishments.map((item, itemIndex) => (
-                          <li key={itemIndex} className="cityos-timeline-li">
-                            <span className="cityos-timeline-dot">•</span>
-                            <span className="cityos-timeline-text">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             </section>
