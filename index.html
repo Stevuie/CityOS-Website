@@ -21,6 +21,8 @@
 
       function App() {
         const [currentPage, setCurrentPage] = useState("about");
+        const [spot, setSpot] = useState('spot_1');
+        const [day, setDay] = useState('Monday');
         const [time, setTime] = useState("");
         const [predictionResult, setPredictionResult] = useState(null);
         const [showResult, setShowResult] = useState(false);
@@ -31,8 +33,6 @@
             return;
           }
 
-          const spotId = document.getElementById('spot-id').value;
-          const day = document.getElementById('day').value;
           const [hour, minute] = time.split(':');
 
           try {
@@ -42,7 +42,7 @@
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({
-                spot_id: spotId,
+                spot_id: spot,
                 day: day,
                 hour: hour,
                 minute: minute
@@ -248,6 +248,8 @@
                     </label>
                     <select
                       id="spot-id"
+                      value={spot}
+                      onChange={e => setSpot(e.target.value)}
                       className="cityos-predictor-input"
                       style={{background: '#334155', color: '#fff', border: '1px solid #c7f361'}}
                       aria-label="Select Parking Spot"
@@ -270,6 +272,8 @@
                     </label>
                     <select
                       id="day"
+                      value={day}
+                      onChange={e => setDay(e.target.value)}
                       className="cityos-predictor-input"
                       style={{background: '#334155', color: '#fff', border: '1px solid #c7f361'}}
                       aria-label="Select Day"
