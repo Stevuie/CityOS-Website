@@ -24,8 +24,13 @@
         const [spot, setSpot] = useState('spot_1');
         const [day, setDay] = useState('Monday');
         const [time, setTime] = useState("");
+        const [timeMode, setTimeMode] = useState('manual');
         const [predictionResult, setPredictionResult] = useState(null);
         const [showResult, setShowResult] = useState(false);
+
+        const commonTimes = [
+          '07:00', '08:00', '09:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'
+        ];
 
         const handlePrediction = async () => {
           if (!time.trim()) {
@@ -288,42 +293,65 @@
                     </select>
                   </div>
                   <div>
-                    <label htmlFor="time" className="cityos-predictor-label">
-                      Enter Time
-                    </label>
-                    <input
-                      type="time"
-                      id="time"
-                      value={time}
-                      onChange={(e) => setTime(e.target.value)}
-                      step="900"
-                      list="time-suggestions"
-                      className="cityos-predictor-input"
-                      style={{
-                        background: '#334155',
-                        color: '#fff',
-                        border: time ? '2px solid #c7f361' : '1px solid #c7f361',
-                        fontSize: '1.2rem',
-                        padding: '1rem',
-                        outline: time ? '2px solid #c7f361' : 'none',
-                        boxShadow: time ? '0 0 0 2px #c7f36155' : 'none',
-                        transition: 'all 0.2s',
-                        marginBottom: '0.5rem',
-                      }}
-                      aria-label="Enter Time"
-                    />
-                    <datalist id="time-suggestions">
-                      <option value="07:00" />
-                      <option value="08:00" />
-                      <option value="09:00" />
-                      <option value="10:00" />
-                      <option value="12:00" />
-                      <option value="14:00" />
-                      <option value="16:00" />
-                      <option value="18:00" />
-                      <option value="20:00" />
-                      <option value="22:00" />
-                    </datalist>
+                    <label className="cityos-predictor-label">Enter Time</label>
+                    <div style={{display: 'flex', gap: '1rem', marginBottom: '0.5rem'}}>
+                      <label style={{color: '#c7f361'}}>
+                        <input type="radio" name="timeMode" value="manual" checked={timeMode === 'manual'} onChange={() => setTimeMode('manual')} />
+                        Manual
+                      </label>
+                      <label style={{color: '#c7f361'}}>
+                        <input type="radio" name="timeMode" value="dropdown" checked={timeMode === 'dropdown'} onChange={() => setTimeMode('dropdown')} />
+                        Dropdown
+                      </label>
+                    </div>
+                    {timeMode === 'manual' ? (
+                      <input
+                        type="time"
+                        id="time"
+                        value={time}
+                        onChange={e => setTime(e.target.value)}
+                        step="900"
+                        className="cityos-predictor-input"
+                        style={{
+                          background: '#334155',
+                          color: '#fff',
+                          border: time ? '2px solid #c7f361' : '1px solid #c7f361',
+                          fontSize: '1.2rem',
+                          padding: '1rem',
+                          outline: time ? '2px solid #c7f361' : 'none',
+                          boxShadow: time ? '0 0 0 2px #c7f36155' : 'none',
+                          transition: 'all 0.2s',
+                          marginBottom: '0.5rem',
+                          width: '100%'
+                        }}
+                        aria-label="Enter Time"
+                      />
+                    ) : (
+                      <select
+                        id="time-dropdown"
+                        value={time}
+                        onChange={e => setTime(e.target.value)}
+                        className="cityos-predictor-input"
+                        style={{
+                          background: '#334155',
+                          color: '#fff',
+                          border: time ? '2px solid #c7f361' : '1px solid #c7f361',
+                          fontSize: '1.2rem',
+                          padding: '1rem',
+                          outline: time ? '2px solid #c7f361' : 'none',
+                          boxShadow: time ? '0 0 0 2px #c7f36155' : 'none',
+                          transition: 'all 0.2s',
+                          marginBottom: '0.5rem',
+                          width: '100%'
+                        }}
+                        aria-label="Select Time"
+                      >
+                        <option value="">-- Select a time --</option>
+                        {commonTimes.map(t => (
+                          <option key={t} value={t}>{t}</option>
+                        ))}
+                      </select>
+                    )}
                     {time && (
                       <div style={{color: '#c7f361', fontWeight: 600, marginTop: '-0.5rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
                         <svg width="20" height="20" fill="#c7f361" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
@@ -345,6 +373,7 @@
                       cursor: time ? 'pointer' : 'not-allowed',
                       opacity: time ? 1 : 0.6,
                       transition: 'all 0.2s',
+                      width: '100%'
                     }}
                     type="button"
                     disabled={!time}
