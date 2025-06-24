@@ -41,3 +41,5 @@ ENV/
 .Trashes
 ehthumbs.db
 Thumbs.db 
+# Ignore local venv added by MLExperiment
+MLExperiment/sklearn-env/
