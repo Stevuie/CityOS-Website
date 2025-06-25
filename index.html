@@ -199,49 +199,83 @@
 
             <section className="cityos-documentation">
               <div className="cityos-documentation-container">
-                <h2 id="design" className="cityos-team-title">
-                  The Design
+                <h2 id="doc" className="cityos-team-title">
+                  Design Documentation Section
                 </h2>
                 <div className="images-container">
-                  <div id="design" className="paragraph-text-container">
-                    <p id="design" className="paragraph-text">
+                  <div id="doc" className="paragraph-text-container">
+                    <p id="doc" className="paragraph-header">Overall Project Design Flowchart</p>
+                    <p id="doc" className="paragraph-text">
                       Our parking predictor consists of 5 main components which
                       are the following: the Data Collection, Video Processing,
                       Data Formatting, Prediction Modeling, and the User
                       Interface.
                     </p>
-                    <p id="design" className="paragraph-text">
+                    <p id="doc" className="paragraph-text">
                       The data collection is being done from the Rutger's Winlab
                       Camera which is pointed into the adjacent parking lot. It
-                      collects video footage daily from __ am to __ pm.
+                      collects video footage daily from 8 am to 8 pm.
                     </p>
-                    <p id="design" className="paragraph-text">
+                    <p id="doc" className="paragraph-text">
                       The video processing is where the video footage is
                       analyzed for information. In our case, it is checking each
                       of our 10 parking spots for availability. When a vehicle
                       parks into any of the spots, it will return data that this
                       spot has been occupied. We accomplished this functionality
-                      using OpenCV and Yolov8.
+                      using OpenCV and YOLOv8.
                     </p>
-                    <p id="design" className="paragraph-text">
-                      The video formatting is where the video data converted and
-                      formatted into a csv file. Within a line, it displays the
-                      lotID number, the hour, and whether the spot is occupied
-                      or free.
+                    <p id="doc" className="paragraph-text">
+                      The video formatting is where the video data formatted and
+                      aggregated into a csv file. Within a line, it displays the
+                      spotID number, Month, Day, Year, Hour, Minute, Second, and
+                      the status of whether the spot is occupied or free.
                     </p>
-                    <p id="design" className="paragraph-text">
-                      The prediction model is where the properly formatted data
-                      is imported into the
+                    <p id="doc" className="paragraph-text">
+                      The prediction model is where the aggregated data is
+                      imported in order to train and teach a machine learning
+                      model. In our project, we are using a Random Forest model
+                      which will take the data and use it to predict the
+                      occupancy given a spotID and a time.
                     </p>
-                    <p id="design" className="paragraph-text">
-                      The user interface is
+                    <p id="doc" className="paragraph-text">
+                      The user interface is where people can interact with our
+                      systems. We are planning to implement a large interactive
+                      ui where users are able to see a mock replica of the
+                      parking lot and are able to then select and visualize
+                      parking lot occupancy through the days and weeks.
                     </p>
                   </div>
                   <img
-                    id="design"
+                    id="doc"
                     className="images"
                     src="assets\CityOS_design_flowchart.png"
                   />
+                </div>
+              </div>
+              <div className="cityos-documentation-container">
+                <div className="images-container">
+                  <img
+                    id="doc"
+                    className="images"
+                    src="assets\VehicleDetection.png"
+                  />
+                  <div id="doc" className="paragraph-text-container">
+                    <p id="doc" className="paragraph-header">Video Detection, YOLOv8, and OpenCV</p>
+                    <p id="doc" className="paragraph-text">
+                      The photo on the left is what the video processings
+                      pipeline looks like. Inside of this photo, the occupied
+                      spots are red while the free spots are green at this
+                      moment of time. This process is done using OpenCV and
+                      YOLOv8. YOLOv8 is specialized tool for object detection
+                      and OpenCV is a computer vision library and general image processing tool which backs up
+                      YOLO.
+                    </p>
+                    <p id="doc" className="paragraph-text">
+                      This step of our project is critical to make as accurate
+                      as possible as faulty data will lead to a faulty
+                      prediction model and innacurate results.
+                    </p>
+                  </div>
                 </div>
               </div>
             </section>
@@ -287,6 +321,14 @@
                           "Implemented and tested Decision Tree and Random Forest ML models",
                           "Created this very website :D",
                           "Continued with data collection and aggregation for ML models.",
+                        ],
+                      },
+                      {
+                        week: "Week 5",
+                        date: "June 23th 2025",
+                        accomplishments: [
+                          "Created the design documentation section of the website",
+                          "",
                         ],
                       },
                     ].map((week, index) => (
