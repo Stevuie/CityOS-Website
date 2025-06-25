@@ -6,8 +6,8 @@ body,
 
 .italic-text {
   font-style: italic;
-  font-family:'Times New Roman', Times, serif;
-  font-size:larger;
+  font-family: "Times New Roman", Times, serif;
+  font-size: larger;
 }
 
 .cityos-app {
@@ -96,7 +96,7 @@ body,
   min-height: 100vh;
 }
 .cityos-hero {
-  padding: 5rem 1rem 5rem 1rem;
+  padding: 4rem 1rem;
 }
 
 .cityos-hero-center {
@@ -124,10 +124,14 @@ body,
 }
 
 .cityos-hero-desc {
+  gap: 10px;
+  margin-bottom: 5%;
+}
+
+.paragraph-text {
   font-size: 1rem;
   color: #c4f1c4;
   line-height: 1.6;
-  margin: 0 0 10% 0;
   text-align: left;
   text-indent: 50px;
 }
@@ -184,21 +188,19 @@ body,
   margin-bottom: 0.75rem;
 }
 .cityos-team-desc {
-  font-size: .8rem;
+  font-size: 0.8rem;
   color: #d1d5db;
   line-height: 1.5;
 }
 
 /* TIMELINE */
 .cityos-timeline {
-  width:80%;
+  width: 80%;
   padding: 4rem 1rem;
-  background-color:#0a5a4193;
+  background-color: #0a5a4193;
   backdrop-filter: blur(2px);
 }
-.cityos-timeline-all {
-  margin: 0 auto;
-}
+
 .cityos-timeline-title {
   font-size: 3rem;
   font-weight: bold;
@@ -208,16 +210,16 @@ body,
   color: #c7f361;
 }
 
-.cityos-timeline-container{
+.cityos-timeline-container {
   display: flex;
   justify-content: left;
   margin-left: 10%;
 }
 
-.cityos-timeline-left{
+.cityos-timeline-left {
   width: 10px;
   height: fill;
-  background-color:#c7f361;
+  background-color: #c7f361;
   margin-right: 10px;
   border-radius: 5px;
 }
@@ -236,7 +238,6 @@ body,
 .cityos-timeline-card:hover {
   background: #ffdca6;
   transform: translateX(10px);
-  
 }
 .cityos-timeline-header {
   display: flex;
@@ -254,18 +255,18 @@ body,
   }
 }
 .cityos-timeline-week {
-  font-family:monospace;
+  font-family: monospace;
   font-size: 2rem;
-  font-weight:800;
+  font-weight: 800;
   color: #0f172a;
 }
 .cityos-timeline-date {
-  font-family:'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
   color: #294942;
   font-size: 1rem;
 }
 .cityos-timeline-ul {
-  font-family:monospace;
+  font-family: monospace;
   font-size: 1rem;
   list-style: none;
   padding: 0;
@@ -276,12 +277,59 @@ body,
   align-items: flex-start;
   gap: 0.75rem;
   color: #0f172a;
-  margin: 0.5rem 0 .5rem 0;
+  margin: 0.5rem 0 0.5rem 0;
 }
 .cityos-timeline-dot {
   color: #0f172a;
   margin-top: 0.25rem;
 }
+
+.cityos-documentation {
+  padding: 2rem 1rem;
+  background: #6a5c4e;
+  border-top: 10px solid #0a5a41;
+}
+
+.cityos-documentation-container {
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.images-container {
+  position: relative;
+  display: flex;
+  left: 5%;
+  justify-content: center;
+  max-width: 90%;
+  height: 30rem;
+  gap: 5px;
+  margin: 0;
+  border-bottom: 2px solid #ffa340;
+  border-bottom-color: #ffa340;;
+}
+
+#design.images {
+  max-width: 40%;
+  height: max-content;
+}
+
+#design.cityos-team-title {
+  color: #ffa340;
+  border-bottom-color: #ffa340;
+}
+
+#design.paragraph-text-container {
+  padding: 5px;
+  width: 60%;
+  overflow-y: scroll;
+}
+
+#design.paragraph-text {
+  font-size: .9rem;
+  color: #e1d4c4;
+}
+
+
 
 /* PREDICTOR */
 .cityos-predictor-main {
