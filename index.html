@@ -204,7 +204,9 @@
                 </h2>
                 <div className="images-container">
                   <div id="doc" className="paragraph-text-container">
-                    <p id="doc" className="paragraph-header">Overall Project Design Flowchart</p>
+                    <p id="doc" className="paragraph-header">
+                      Overall Project Design Flowchart
+                    </p>
                     <p id="doc" className="paragraph-text">
                       Our parking predictor consists of 5 main components which
                       are the following: the Data Collection, Video Processing,
@@ -260,15 +262,17 @@
                     src="assets\VehicleDetection.png"
                   />
                   <div id="doc" className="paragraph-text-container">
-                    <p id="doc" className="paragraph-header">Video Detection, YOLOv8, and OpenCV</p>
+                    <p id="doc" className="paragraph-header">
+                      Video Detection, YOLOv8, and OpenCV
+                    </p>
                     <p id="doc" className="paragraph-text">
                       The photo on the left is what the video processings
                       pipeline looks like. Inside of this photo, the occupied
                       spots are red while the free spots are green at this
                       moment of time. This process is done using OpenCV and
                       YOLOv8. YOLOv8 is specialized tool for object detection
-                      and OpenCV is a computer vision library and general image processing tool which backs up
-                      YOLO.
+                      and OpenCV is a computer vision library and general image
+                      processing tool which backs up YOLO.
                     </p>
                     <p id="doc" className="paragraph-text">
                       This step of our project is critical to make as accurate
@@ -361,6 +365,8 @@
         // ================================================================================================//
 
         const PredictorPage = () => (
+          <>
+          <iframe src="user_interface.html" className="user-interface-instance-container"></iframe>
           <div className="cityos-predictor-main">
             <div
               className="cityos-predictor-container"
@@ -625,13 +631,14 @@
               </div>
             </div>
           </div>
+          </>
         );
 
         return (
           <div className="cityos-app">
             <div className="background">
               <Header />
-              {currentPage === "about" ? <AboutPage /> : <PredictorPage />}
+              {currentPage === "about" ? <AboutPage/> : <PredictorPage/>}
             </div>
           </div>
         );
