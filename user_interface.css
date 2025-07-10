@@ -1,4 +1,33 @@
 
-body {
-    background-color:aliceblue;
+body,
+.predictor-full-container {
+  position: absolute;
+  background-color: rgb(157, 157, 209);
+  margin: 0;
+}
+
+.header-bar {
+  position: fixed;
+  z-index: 10;
+  background-color: rgb(241, 255, 254);
+  border-bottom: 5px solid black;
+  width: 100vw;
+  height: 12vh;
+}
+
+.side-bar {
+  position: fixed;
+  z-index: 5;
+  background-color: rgb(241, 255, 254);
+  border-right: 5px solid black;
+  top: 12vh;
+  bottom: 0vh;
+  width: 40vw;
+}
+
+.map {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
 }
