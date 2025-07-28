@@ -9,71 +9,67 @@
       // Parking spot data - matching the actual parking lot layout
       const parkingSpots = [
         // Row 1 (top row) - 10 spots
-        { id: 'spot_1', row: 1, position: 1, number: 1 },
-        { id: 'spot_2', row: 1, position: 2, number: 2 },
-        { id: 'spot_3', row: 1, position: 3, number: 3 },
-        { id: 'spot_4', row: 1, position: 4, number: 4 },
-        { id: 'spot_5', row: 1, position: 5, number: 5 },
-        { id: 'spot_6', row: 1, position: 6, number: 6 },
-        { id: 'spot_7', row: 1, position: 7, number: 7 },
-        { id: 'spot_8', row: 1, position: 8, number: 8 },
-        { id: 'spot_9', row: 1, position: 9, number: 9 },
-        { id: 'spot_10', row: 1, position: 10, number: 10 },
-        
-        // Row 2 (middle row) - 10 spots
-        { id: 'spot_11', row: 2, position: 1, number: 11 },
-        { id: 'spot_12', row: 2, position: 2, number: 12 },
-        { id: 'spot_13', row: 2, position: 3, number: 13 },
-        { id: 'spot_14', row: 2, position: 4, number: 14 },
-        { id: 'spot_15', row: 2, position: 5, number: 15 },
-        { id: 'spot_16', row: 2, position: 6, number: 16 },
-        { id: 'spot_17', row: 2, position: 7, number: 17 },
-        { id: 'spot_18', row: 2, position: 8, number: 18 },
-        { id: 'spot_19', row: 2, position: 9, number: 19 },
-        { id: 'spot_20', row: 2, position: 10, number: 20 },
-        
-        // Row 3 (bottom row) - 10 spots
-        { id: 'spot_21', row: 3, position: 1, number: 21 },
-        { id: 'spot_22', row: 3, position: 2, number: 22 },
-        { id: 'spot_23', row: 3, position: 3, number: 23 },
-        { id: 'spot_24', row: 3, position: 4, number: 24 },
-        { id: 'spot_25', row: 3, position: 5, number: 25 },
-        { id: 'spot_26', row: 3, position: 6, number: 26 },
-        { id: 'spot_27', row: 3, position: 7, number: 27 },
-        { id: 'spot_28', row: 3, position: 8, number: 28 },
-        { id: 'spot_29', row: 3, position: 9, number: 29 },
-        { id: 'spot_30', row: 3, position: 10, number: 30 }
+        { id: "spot_1", row: 1, position: 1, number: 1 },
+        { id: "spot_2", row: 1, position: 2, number: 2 },
+        { id: "spot_3", row: 1, position: 3, number: 3 },
+        { id: "spot_4", row: 1, position: 4, number: 4 },
+
+        // Row 2 (middle row) - 5 spots
+        { id: "spot_5", row: 2, position: 1, number: 5 },
+        { id: "spot_6", row: 2, position: 2, number: 6 },
+        { id: "spot_7", row: 2, position: 3, number: 7 },
+        { id: "spot_8", row: 2, position: 4, number: 8 },
+        { id: "spot_9", row: 2, position: 5, number: 9 },
+
+        // Row 3 (bottom row) - 5 spots
+        { id: "spot_10", row: 3, position: 1, number: 10 },
+        { id: "spot_11", row: 3, position: 2, number: 11 },
+        { id: "spot_12", row: 3, position: 3, number: 12 },
+        { id: "spot_13", row: 3, position: 4, number: 13 },
+        { id: "spot_14", row: 3, position: 5, number: 14 },
+
+        // Row 4 (bottom row) - 4 spots
+        { id: "spot_15", row: 4, position: 1, number: 15 },
+        { id: "spot_16", row: 4, position: 2, number: 16 },
+        { id: "spot_17", row: 4, position: 3, number: 17 },
+        { id: "spot_18", row: 4, position: 4, number: 18 },
       ];
 
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener("DOMContentLoaded", function () {
         // Create parking spots for each row
-        const row1Container = document.getElementById('row-1-spots');
-        const row2Container = document.getElementById('row-2-spots');
-        const row3Container = document.getElementById('row-3-spots');
+        const row1Container = document.getElementById("row-1-spots");
+        const row2Container = document.getElementById("row-2-spots");
+        const row3Container = document.getElementById("row-3-spots");
+        const row4Container = document.getElementById("row-4-spots");
 
-        parkingSpots.forEach(spot => {
-          const spotElement = document.createElement('div');
-          spotElement.className = 'parking-spot';
+        parkingSpots.forEach((spot) => {
+          const spotElement = document.createElement("div");
+          spotElement.className = "parking-spot";
           spotElement.id = spot.id;
           spotElement.textContent = spot.number;
           spotElement.dataset.spotId = spot.id;
           spotElement.dataset.spotNumber = spot.number;
           spotElement.title = `Parking Spot ${spot.number}`;
-          
+
           // Add click event
-          spotElement.addEventListener('click', function() {
+          spotElement.addEventListener("click", function () {
             // Remove selected class from all spots
-            document.querySelectorAll('.parking-spot').forEach(s => s.classList.remove('selected'));
+            document
+              .querySelectorAll(".parking-spot")
+              .forEach((s) => s.classList.remove("selected"));
             // Add selected class to clicked spot
-            this.classList.add('selected');
-            
+            this.classList.add("selected");
+
             // Send message to parent window
             if (window.parent) {
-              window.parent.postMessage({
-                type: 'spotSelected',
-                spotId: spot.id,
-                spotNumber: spot.number
-              }, '*');
+              window.parent.postMessage(
+                {
+                  type: "spotSelected",
+                  spotId: spot.id,
+                  spotNumber: spot.number,
+                },
+                "*"
+              );
             }
           });
 
@@ -84,38 +80,48 @@
             row2Container.appendChild(spotElement);
           } else if (spot.row === 3) {
             row3Container.appendChild(spotElement);
+          } else if (spot.row === 4) {
+            row4Container.appendChild(spotElement);
           }
         });
 
         // Simulate some occupied spots (for demo purposes)
         setTimeout(() => {
-          const occupiedSpots = ['spot_3', 'spot_7', 'spot_15', 'spot_22', 'spot_28'];
-          occupiedSpots.forEach(spotId => {
+          const occupiedSpots = [
+            "spot_3",
+            "spot_7",
+            "spot_15",
+            "spot_22",
+            "spot_28",
+          ];
+          occupiedSpots.forEach((spotId) => {
             const spot = document.getElementById(spotId);
             if (spot) {
-              spot.classList.add('occupied');
-              spot.textContent = 'OCC';
-              spot.title = 'Occupied';
+              spot.classList.add("occupied");
+              spot.textContent = "OCC";
+              spot.title = "Occupied";
             }
           });
         }, 1000);
 
         // Add some visual feedback for the map
-        console.log('CityOS Parking Map loaded with', parkingSpots.length, 'interactive spots');
+        console.log(
+          "CityOS Parking Map loaded with",
+          parkingSpots.length,
+          "interactive spots"
+        );
       });
     </script>
   </head>
   <body>
     <div class="background-map">
-      <img 
-        src="assets/CityOSMap.png"
-        alt="CityOS Parking Lot Map"
-      />
+      <img src="assets/CityOSMap.png" alt="CityOS Parking Lot Map" />
     </div>
-    
+
     <!-- Parking spot rows - positioned over actual parking areas -->
     <div class="lot-container-one" id="row-1-spots"></div>
     <div class="lot-container-two" id="row-2-spots"></div>
     <div class="lot-container-three" id="row-3-spots"></div>
+    <div class="lot-container-four" id="row-4-spots"></div>
   </body>
 </html>

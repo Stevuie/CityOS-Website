@@ -118,34 +118,45 @@ body,
 /* Parking spot containers - positioned over actual parking spots */
 .lot-container-one {
   position: absolute;
-  top: 28%;
-  left: 8%;
-  width: 65%;
-  height: 4%;
+  top: 13.9%;
+  left: 44.1%;
+  width: 17.8%;
+  height: 11%;
+  gap: 2.5%;
   display: flex;
-  gap: 0.5px;
   z-index: 5;
 }
 
 .lot-container-two {
   position: absolute;
-  top: 42%;
-  left: 8%;
-  width: 65%;
-  height: 4%;
+  top: 37%;
+  left: 42.4%;
+  width: 19%;
+  height: 10%;
+  gap: 3%;
   display: flex;
-  gap: 0.5px;
   z-index: 5;
 }
 
 .lot-container-three {
   position: absolute;
-  top: 56%;
-  left: 8%;
-  width: 65%;
-  height: 4%;
+  top: 48.1%;
+  left: 42.4%;
+  width: 19%;
+  height: 10%;
+  gap: 3%;
   display: flex;
-  gap: 0.5px;
+  z-index: 5;
+}
+
+.lot-container-four {
+  position: absolute;
+  top: 76.9%;
+  left: 52.85%;
+  width: 15.2%;
+  height: 12%;
+  gap: 3%;
+  display: flex;
   z-index: 5;
 }
 
@@ -165,7 +176,6 @@ body,
   color: #14222b;
   border-radius: 1px;
   font-family: "Inter", sans-serif;
-  min-width: 15px;
   position: relative;
 }
 
@@ -197,13 +207,6 @@ body,
 .parking-spot.occupied:hover {
   transform: none;
   box-shadow: none;
-}
-
-.lot {
-  position: absolute;
-  width: 75px;
-  height: 115px;
-  border: 2px solid red;
 }
 
 .header-bar label {

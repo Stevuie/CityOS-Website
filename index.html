@@ -121,9 +121,7 @@
                   <button
                     onClick={() => setCurrentPage("map")}
                     className={`cityos-btn cityos-btn-nav${
-                      currentPage === "map"
-                        ? " cityos-btn-nav-active"
-                        : ""
+                      currentPage === "map" ? " cityos-btn-nav-active" : ""
                     }`}
                   >
                     Map Interface
@@ -345,7 +343,7 @@
                           "Designed a mock up of the web app with components",
                           "Collected and imported more data as well as correcting some overfitting with the model",
                           "Ran RandomCV and GridsearchCV across multiple folds for optimization and cross-validation",
-                          "Generated occupancy histograms per day to visualize trends in each lot"
+                          "Generated occupancy histograms per day to visualize trends in each lot",
                         ],
                       },
                       {
@@ -354,7 +352,7 @@
                         accomplishments: [
                           "Created 3D model assets of vehicles for the web app",
                           "Generated occupancy graphs from the machine learning model",
-                          "Continued collecting more data to train the model"
+                          "Continued collecting more data to train the model",
                         ],
                       },
                       {
@@ -363,17 +361,13 @@
                         accomplishments: [
                           "Developed a finished rough layout of the parking web app and connected it to the website",
                           "Analyzed graphs outputted by the Random Forest's prediction and the actual camera detection of that day",
-                          "Conceptualized an expansion of project utilizing more of the parking lot which requires a new detection model not based on bounding boxes or points"
+                          "Conceptualized an expansion of project utilizing more of the parking lot which requires a new detection model not based on bounding boxes or points",
                         ],
                       },
                       {
                         week: "Week 8",
                         date: "July 14th 2025",
-                        accomplishments: [
-                          "",
-                          "",
-                          "",
-                        ],
+                        accomplishments: ["", "", ""],
                       },
                     ].map((week, index) => (
                       <div key={index} className="cityos-timeline-card">
@@ -678,18 +672,28 @@
           const [mapTimeSlider, setMapTimeSlider] = useState(1);
           const [mapPredictionResult, setMapPredictionResult] = useState(null);
           const [selectedSpot, setSelectedSpot] = useState(null);
-          const [occupiedSpots] = useState(['spot_3', 'spot_7', 'spot_15', 'spot_22', 'spot_28']);
+          const [occupiedSpots] = useState([
+            "spot_3",
+            "spot_7",
+            "spot_15",
+            "spot_22",
+            "spot_28",
+          ]);
 
           // Create parking spots data
           const parkingSpots = [];
-          for (let row = 1; row <= 3; row++) {
-            for (let pos = 1; pos <= 10; pos++) {
-              const spotNumber = (row - 1) * 10 + pos;
+
+          for (let row = 1; row <= 4; row++) {
+            // First and last row → 4 spots, middle rows → 5 spots
+            const spotsInRow = row === 1 || row === 4 ? 4 : 5;
+
+            for (let pos = 1; pos <= spotsInRow; pos++) {
+              const spotNumber = parkingSpots.length + 1; // Ensure sequential numbering
               parkingSpots.push({
                 id: `spot_${spotNumber}`,
                 row: row,
                 position: pos,
-                number: spotNumber
+                number: spotNumber,
               });
             }
           }
@@ -771,11 +775,11 @@
           const getSpotStyle = (spot) => {
             const isSelected = selectedSpot === spot.id;
             const isOccupied = occupiedSpots.includes(spot.id);
-            
+
             let backgroundColor = "rgba(199, 243, 97, 0.1)";
             let borderColor = "#c4f1c4";
             let color = "#14222b";
-            
+
             if (isSelected) {
               backgroundColor = "rgba(199, 243, 97, 0.95)";
               borderColor = "#fffed0";
@@ -784,7 +788,7 @@
               borderColor = "#ef4444";
               color = "white";
             }
-            
+
             return {
               flex: 1,
               height: "100%",
@@ -802,39 +806,59 @@
               fontFamily: "Inter, sans-serif",
               minWidth: "15px",
               position: "relative",
-              zIndex: isSelected ? 10 : 5
+              zIndex: isSelected ? 10 : 5,
             };
           };
 
           return (
-            <div style={{
-              minHeight: "100vh",
-              paddingTop: "3.5rem",
-              backgroundColor: "#0f172a",
-              fontFamily: "Inter, sans-serif"
-            }}>
-              <div style={{
-                position: "relative",
-                height: "calc(100vh - 3.5rem)"
-              }}>
+            <div
+              style={{
+                minHeight: "100vh",
+                paddingTop: "3.5rem",
+                backgroundColor: "#0f172a",
+                fontFamily: "Inter, sans-serif",
+              }}
+            >
+              <div
+                style={{
+                  position: "relative",
+                  height: "calc(100vh - 3.5rem)",
+                }}
+              >
                 {/* Header Controls */}
-                <div style={{
-                  position: "fixed",
-                  top: "3.5rem",
-                  left: "30%",
-                  right: 0,
-                  height: "4rem",
-                  background: "#0a5a4193",
-                  backdropFilter: "blur(2px)",
-                  borderBottom: "3px solid #fffed0",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "1rem",
-                  padding: "0 1rem",
-                  zIndex: 10
-                }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                    <span style={{ color: "#fffed0", fontWeight: "600", fontSize: "14px" }}>Spot:</span>
+                <div
+                  style={{
+                    position: "fixed",
+                    top: "3.5rem",
+                    left: 0,
+                    right: 0,
+                    height: "4rem",
+                    background: "#0a5a4193",
+                    backdropFilter: "blur(2px)",
+                    borderBottom: "3px solid #fffed0",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "1rem",
+                    padding: "0 1rem",
+                    zIndex: 10,
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: "#fffed0",
+                        fontWeight: "600",
+                        fontSize: "14px",
+                      }}
+                    >
+                      Spot:
+                    </span>
                     <select
                       value={mapSpot}
                       onChange={(e) => setMapSpot(e.target.value)}
@@ -845,17 +869,33 @@
                         backgroundColor: "rgba(15, 23, 42, 0.8)",
                         color: "#c4f1c4",
                         fontFamily: "Inter, sans-serif",
-                        fontSize: "14px"
+                        fontSize: "14px",
                       }}
                     >
-                      {parkingSpots.map(spot => (
-                        <option key={spot.id} value={spot.id}>Spot {spot.number}</option>
+                      {parkingSpots.map((spot) => (
+                        <option key={spot.id} value={spot.id}>
+                          Spot {spot.number}
+                        </option>
                       ))}
                     </select>
                   </div>
-                  
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                    <span style={{ color: "#fffed0", fontWeight: "600", fontSize: "14px" }}>Day:</span>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: "#fffed0",
+                        fontWeight: "600",
+                        fontSize: "14px",
+                      }}
+                    >
+                      Day:
+                    </span>
                     <select
                       value={mapDay}
                       onChange={(e) => setMapDay(e.target.value)}
@@ -866,7 +906,7 @@
                         backgroundColor: "rgba(15, 23, 42, 0.8)",
                         color: "#c4f1c4",
                         fontFamily: "Inter, sans-serif",
-                        fontSize: "14px"
+                        fontSize: "14px",
                       }}
                     >
                       <option value="Monday">Monday</option>
@@ -878,9 +918,23 @@
                       <option value="Sunday">Sunday</option>
                     </select>
                   </div>
-                  
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                    <span style={{ color: "#fffed0", fontWeight: "600", fontSize: "14px" }}>Time:</span>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: "#fffed0",
+                        fontWeight: "600",
+                        fontSize: "14px",
+                      }}
+                    >
+                      Time:
+                    </span>
                     <input
                       type="time"
                       value={mapTime}
@@ -895,20 +949,30 @@
                         backgroundColor: "rgba(15, 23, 42, 0.8)",
                         color: "#c4f1c4",
                         fontFamily: "Inter, sans-serif",
-                        fontSize: "14px"
+                        fontSize: "14px",
                       }}
                     />
                   </div>
-                  
-                  <div style={{ 
-                    flex: 1, 
-                    padding: "0 1rem", 
-                    maxWidth: "400px",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.25rem"
-                  }}>
-                    <span style={{ color: "#fffed0", fontWeight: "600", fontSize: "14px" }}>Time Slider:</span>
+
+                  <div
+                    style={{
+                      flex: 1,
+                      padding: "0 1rem",
+                      maxWidth: "400px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "0.25rem",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: "#fffed0",
+                        fontWeight: "600",
+                        fontSize: "14px",
+                      }}
+                    >
+                      Time Slider:
+                    </span>
                     <input
                       type="range"
                       min="1"
@@ -921,11 +985,11 @@
                         borderRadius: "4px",
                         background: "rgba(196, 241, 196, 0.3)",
                         outline: "none",
-                        WebkitAppearance: "none"
+                        WebkitAppearance: "none",
                       }}
                     />
                   </div>
-                  
+
                   <button
                     onClick={handleMapPrediction}
                     style={{
@@ -937,175 +1001,277 @@
                       fontWeight: "600",
                       fontFamily: "Inter, sans-serif",
                       cursor: "pointer",
-                      fontSize: "14px"
+                      fontSize: "14px",
                     }}
                   >
                     Submit
                   </button>
-                  
+
                   {mapPredictionResult && (
-                    <div style={{
-                      padding: "0.5rem 1rem",
-                      backgroundColor: mapPredictionResult === "Free" ? "#10b981" : "#ef4444",
-                      color: "white",
-                      borderRadius: "0.375rem",
-                      fontWeight: "bold"
-                    }}>
+                    <div
+                      style={{
+                        padding: "0.5rem 1rem",
+                        backgroundColor:
+                          mapPredictionResult === "Free"
+                            ? "#10b981"
+                            : "#ef4444",
+                        color: "white",
+                        borderRadius: "0.375rem",
+                        fontWeight: "bold",
+                      }}
+                    >
                       {mapPredictionResult}
                     </div>
                   )}
                 </div>
-                
+
                 {/* Side Bar */}
-                <div style={{
-                  position: "fixed",
-                  top: "7.5rem",
-                  left: 0,
-                  bottom: 0,
-                  width: "30%",
-                  background: "#0a5a4193",
-                  backdropFilter: "blur(2px)",
-                  borderRight: "3px solid #fffed0",
-                  padding: "1rem",
-                  zIndex: 5
-                }}>
-                  <h3 style={{ 
-                    margin: "0 0 1rem 0", 
-                    color: "#fffed0", 
-                    fontSize: "18px",
-                    fontWeight: "bold",
-                    borderBottom: "2px solid #c7f361",
-                    paddingBottom: "0.5rem"
-                  }}>
+                <div
+                  style={{
+                    position: "fixed",
+                    top: "7.5rem",
+                    left: 0,
+                    bottom: 0,
+                    width: "30%",
+                    background: "#0a5a4193",
+                    backdropFilter: "blur(2px)",
+                    borderRight: "3px solid #fffed0",
+                    padding: "1rem",
+                    zIndex: 5,
+                  }}
+                >
+                  <h3
+                    style={{
+                      margin: "0 0 1rem 0",
+                      color: "#fffed0",
+                      fontSize: "18px",
+                      fontWeight: "bold",
+                      borderBottom: "2px solid #c7f361",
+                      paddingBottom: "0.5rem",
+                    }}
+                  >
                     Parking Information
                   </h3>
-                  <div style={{
-                    border: "2px solid #c7f361",
-                    padding: "1rem",
-                    borderRadius: "8px",
-                    backgroundColor: "rgba(199, 243, 97, 0.1)"
-                  }}>
-                    <p style={{ margin: "0.5rem 0", fontSize: "14px", color: "#c4f1c4" }}>
-                      Selected Spot: <span style={{ fontWeight: "bold", color: "#c7f361" }}>
+                  <div
+                    style={{
+                      border: "2px solid #c7f361",
+                      padding: "1rem",
+                      borderRadius: "8px",
+                      backgroundColor: "rgba(199, 243, 97, 0.1)",
+                    }}
+                  >
+                    <p
+                      style={{
+                        margin: "0.5rem 0",
+                        fontSize: "14px",
+                        color: "#c4f1c4",
+                      }}
+                    >
+                      Selected Spot:{" "}
+                      <span style={{ fontWeight: "bold", color: "#c7f361" }}>
                         {mapSpot === "spot_1" ? "None" : mapSpot}
                       </span>
                     </p>
-                    <p style={{ margin: "0.5rem 0", fontSize: "14px", color: "#c4f1c4" }}>
-                      Selected Day: <span style={{ fontWeight: "bold", color: "#c7f361" }}>
+                    <p
+                      style={{
+                        margin: "0.5rem 0",
+                        fontSize: "14px",
+                        color: "#c4f1c4",
+                      }}
+                    >
+                      Selected Day:{" "}
+                      <span style={{ fontWeight: "bold", color: "#c7f361" }}>
                         {mapDay}
                       </span>
                     </p>
-                    <p style={{ margin: "0.5rem 0", fontSize: "14px", color: "#c4f1c4" }}>
-                      Selected Time: <span style={{ fontWeight: "bold", color: "#c7f361" }}>
+                    <p
+                      style={{
+                        margin: "0.5rem 0",
+                        fontSize: "14px",
+                        color: "#c4f1c4",
+                      }}
+                    >
+                      Selected Time:{" "}
+                      <span style={{ fontWeight: "bold", color: "#c7f361" }}>
                         {mapTime}
                       </span>
                     </p>
                     {mapPredictionResult && (
-                      <p style={{ 
-                        margin: "0.5rem 0 0 0", 
-                        fontWeight: "bold",
-                        color: mapPredictionResult === "Free" ? "#10b981" : "#ef4444"
-                      }}>
+                      <p
+                        style={{
+                          margin: "0.5rem 0 0 0",
+                          fontWeight: "bold",
+                          color:
+                            mapPredictionResult === "Free"
+                              ? "#10b981"
+                              : "#ef4444",
+                        }}
+                      >
                         Status: {mapPredictionResult}
                       </p>
                     )}
                   </div>
                 </div>
-                
+
                 {/* Map Area */}
-                <div style={{
-                  position: "absolute",
-                  top: "7.5rem",
-                  left: "30%",
-                  right: 0,
-                  bottom: 0,
-                  overflow: "hidden",
-                  zIndex: 0
-                }}>
-                  <div style={{
-                    width: "100%",
-                    height: "100%",
-                    position: "relative"
-                  }}>
-                    <img 
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "7.5rem",
+                    left: "30%",
+                    right: 0,
+                    bottom: 0,
+                    overflow: "hidden",
+                    zIndex: 0,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      position: "relative",
+                    }}
+                  >
+                    <img
                       src="assets/CityOSMap.png"
                       alt="CityOS Parking Lot Map"
                       style={{
                         width: "100%",
                         height: "100%",
                         objectFit: "contain",
-                        objectPosition: "center"
+                        objectPosition: "center",
                       }}
                     />
-                    
+
                     {/* Interactive Parking Spots */}
                     {/* Row 1 */}
-                    <div style={{
-                      position: "absolute",
-                      top: "28%",
-                      left: "8%",
-                      width: "65%",
-                      height: "4%",
-                      display: "flex",
-                      gap: "0.5px",
-                      zIndex: 5
-                    }}>
-                      {parkingSpots.filter(spot => spot.row === 1).map(spot => (
-                        <div
-                          key={spot.id}
-                          style={getSpotStyle(spot)}
-                          onClick={() => !occupiedSpots.includes(spot.id) && handleSpotClick(spot.id, spot.number)}
-                          title={`Parking Spot ${spot.number}`}
-                        >
-                          {occupiedSpots.includes(spot.id) ? 'OCC' : spot.number}
-                        </div>
-                      ))}
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "9.32%",
+                        left: "44.3%",
+                        width: "17.3%",
+                        height: "11%",
+                        gap: "2%",
+                        display: "flex",
+
+                        zIndex: 5,
+                      }}
+                    >
+                      {parkingSpots
+                        .filter((spot) => spot.row === 1)
+                        .map((spot) => (
+                          <div
+                            key={spot.id}
+                            style={getSpotStyle(spot)}
+                            onClick={() =>
+                              !occupiedSpots.includes(spot.id) &&
+                              handleSpotClick(spot.id, spot.number)
+                            }
+                            title={`Parking Spot ${spot.number}`}
+                          >
+                            {occupiedSpots.includes(spot.id)
+                              ? "OCC"
+                              : spot.number}
+                          </div>
+                        ))}
                     </div>
-                    
+
                     {/* Row 2 */}
-                    <div style={{
-                      position: "absolute",
-                      top: "42%",
-                      left: "8%",
-                      width: "65%",
-                      height: "4%",
-                      display: "flex",
-                      gap: "0.5px",
-                      zIndex: 5
-                    }}>
-                      {parkingSpots.filter(spot => spot.row === 2).map(spot => (
-                        <div
-                          key={spot.id}
-                          style={getSpotStyle(spot)}
-                          onClick={() => !occupiedSpots.includes(spot.id) && handleSpotClick(spot.id, spot.number)}
-                          title={`Parking Spot ${spot.number}`}
-                        >
-                          {occupiedSpots.includes(spot.id) ? 'OCC' : spot.number}
-                        </div>
-                      ))}
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "36.9%",
+                        left: "41.35%",
+                        width: "21.55%",
+                        height: "10%",
+                        display: "flex",
+                        gap: "2.6%",
+                        zIndex: 5,
+                      }}
+                    >
+                      {parkingSpots
+                        .filter((spot) => spot.row === 2)
+                        .map((spot) => (
+                          <div
+                            key={spot.id}
+                            style={getSpotStyle(spot)}
+                            onClick={() =>
+                              !occupiedSpots.includes(spot.id) &&
+                              handleSpotClick(spot.id, spot.number)
+                            }
+                            title={`Parking Spot ${spot.number}`}
+                          >
+                            {occupiedSpots.includes(spot.id)
+                              ? "OCC"
+                              : spot.number}
+                          </div>
+                        ))}
                     </div>
-                    
+
                     {/* Row 3 */}
-                    <div style={{
-                      position: "absolute",
-                      top: "56%",
-                      left: "8%",
-                      width: "65%",
-                      height: "4%",
-                      display: "flex",
-                      gap: "0.5px",
-                      zIndex: 5
-                    }}>
-                      {parkingSpots.filter(spot => spot.row === 3).map(spot => (
-                        <div
-                          key={spot.id}
-                          style={getSpotStyle(spot)}
-                          onClick={() => !occupiedSpots.includes(spot.id) && handleSpotClick(spot.id, spot.number)}
-                          title={`Parking Spot ${spot.number}`}
-                        >
-                          {occupiedSpots.includes(spot.id) ? 'OCC' : spot.number}
-                        </div>
-                      ))}
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "48.2%",
+                        left: "41.35%",
+                        width: "21.55%",
+                        height: "10%",
+                        display: "flex",
+                        gap: "2.6%",
+                        zIndex: 5,
+                      }}
+                    >
+                      {parkingSpots
+                        .filter((spot) => spot.row === 3)
+                        .map((spot) => (
+                          <div
+                            key={spot.id}
+                            style={getSpotStyle(spot)}
+                            onClick={() =>
+                              !occupiedSpots.includes(spot.id) &&
+                              handleSpotClick(spot.id, spot.number)
+                            }
+                            title={`Parking Spot ${spot.number}`}
+                          >
+                            {occupiedSpots.includes(spot.id)
+                              ? "OCC"
+                              : spot.number}
+                          </div>
+                        ))}
+                    </div>
+
+                    {/* Row 4 */}
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "77.8%",
+                        left: "53.2%",
+                        width: "17.3%",
+                        height: "11%",
+                        gap: "3.3%",
+                        display: "flex",
+
+                        zIndex: 5,
+                      }}
+                    >
+                      {parkingSpots
+                        .filter((spot) => spot.row === 4)
+                        .map((spot) => (
+                          <div
+                            key={spot.id}
+                            style={getSpotStyle(spot)}
+                            onClick={() =>
+                              !occupiedSpots.includes(spot.id) &&
+                              handleSpotClick(spot.id, spot.number)
+                            }
+                            title={`Parking Spot ${spot.number}`}
+                          >
+                            {occupiedSpots.includes(spot.id)
+                              ? "OCC"
+                              : spot.number}
+                          </div>
+                        ))}
                     </div>
                   </div>
                 </div>
@@ -1118,7 +1284,13 @@
           <div className="cityos-app">
             <div className="background">
               <Header />
-              {currentPage === "about" ? <AboutPage/> : currentPage === "predictor" ? <PredictorPage/> : <MapPage/>}
+              {currentPage === "about" ? (
+                <AboutPage />
+              ) : currentPage === "predictor" ? (
+                <PredictorPage />
+              ) : (
+                <MapPage />
+              )}
             </div>
           </div>
         );
