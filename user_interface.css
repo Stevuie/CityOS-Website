@@ -1,0 +1,161 @@
+body,
+.predictor-full-container {
+  position: relative;
+  background-color: rgb(157, 157, 209);
+  margin: 0;
+  padding: 0;
+}
+
+.draggable-region {
+  position: absolute;
+  top: 12vh;
+  left: 10vw;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+}
+
+.header-bar {
+  position: fixed;
+  display: flex;
+  z-index: 10;
+  background-color: rgb(241, 255, 254);
+  border-bottom: 5px solid black;
+  width: 100vw;
+  height: 12vh;
+}
+
+.side-bar {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  z-index: 5;
+  background-color: rgb(241, 255, 254);
+  border-right: 5px solid black;
+  top: 12vh;
+  bottom: 0vh;
+  width: 30%;
+  padding: 10px;
+}
+
+.spot-display {
+  position: relative;
+  height:10%;
+  border: 2px solid green;
+}
+
+.map-frame {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+}
+
+.background-map {
+  width: 1920px;
+  height: 1080px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.map {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 2000px;
+  height: 750px;
+}
+
+.lot-container-one {
+  position: absolute;
+  top: 392px;
+  left: 786px;
+  width: 435px;
+  height: 115px;
+  border: 2px solid red;
+}
+
+.lot-container-two {
+  position: absolute;
+  top: 520px;
+  left: 786px;
+  width: 435px;
+  height: 115px;
+  border: 2px solid blue;
+}
+
+.lot-container-three {
+  position: absolute;
+  top: 830px;
+  left: 933px;
+  width: 435px;
+  height: 115px;
+  border: 2px solid green;
+}
+
+.lot {
+  position: absolute;
+  width: 75px;
+  height: 115px;
+  border: 2px solid red;
+}
+#spot-id {
+  width: 10%;
+}
+
+#day {
+  width: 10%;
+}
+
+#time {
+  width: 10%;
+}
+
+#submit {
+  width: 15%;
+}
+.slide-container {
+  width: 55%;
+  padding: 5px;
+}
+
+.slider {
+  position: relative;
+  top: 50%;
+  left: 49.8%;
+  transform: translate(-50%, -52%);
+  -webkit-appearance: none; /* Override default CSS styles */
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 10%; /* Specified height */
+  background: #d3d3d3; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: 0.2s; /* 0.2 seconds transition on hover */
+  transition: opacity 0.2s;
+}
+
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #04aa6d; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #04aa6d; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}

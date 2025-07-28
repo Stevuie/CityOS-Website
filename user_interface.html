@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>user interface</title>
+    <link rel="stylesheet" href="user_interface.css" />
+    <script src="user_interface.js"></script>
+  </head>
+
+  <body>
+    <div class="header-bar">
+      <select id="spot-id" value="{spot}">
+        <option value="null">Choose Spot</option>
+        <option value="spot_1">Spot 1</option>
+        <option value="spot_2">Spot 2</option>
+        <option value="spot_3">Spot 3</option>
+        <option value="spot_4">Spot 4</option>
+        <option value="spot_5">Spot 5</option>
+        <option value="spot_6">Spot 6</option>
+        <option value="spot_10">Spot 10</option>
+        <option value="spot_12">Spot 12</option>
+        <option value="spot_13">Spot 13</option>
+        <option value="spot_14">Spot 14</option>
+      </select>
+      <select id="day" value="{day}">
+        <option value="null">Choose Day</option>
+        <option value="monday">Monday</option>
+        <option value="tuesday">Tuesday</option>
+        <option value="wednesday">Wednesday</option>
+        <option value="thursday">Thursday</option>
+        <option value="friday">Friday</option>
+        <option value="saturday">Saturday</option>
+        <option value="sunday">Sunday</option>
+      </select>
+      <input
+        type="time"
+        id="time"
+        value="07:00"
+        step="900"
+        min="07:00"
+        max="19:00"
+        aria-label="Enter Time"
+      />
+      <div class="slide-container">
+        <input
+          type="range"
+          min="1"
+          max="100"
+          value="1"
+          class="slider"
+          id="myRange"
+          step="1"
+        />
+      </div>
+      <button id="submit">Submit</button>
+    </div>
+    <div class="side-bar">
+      <div class="spot-display"></div>
+    </div>
+    <div class="draggable-region">
+      <iframe src="map.html" class="map-frame" draggable="false"></iframe>
+    </div>
+  </body>
+</html>

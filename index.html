@@ -204,7 +204,9 @@
                 </h2>
                 <div className="images-container">
                   <div id="doc" className="paragraph-text-container">
-                    <p id="doc" className="paragraph-header">Overall Project Design Flowchart</p>
+                    <p id="doc" className="paragraph-header">
+                      Overall Project Design Flowchart
+                    </p>
                     <p id="doc" className="paragraph-text">
                       Our parking predictor consists of 5 main components which
                       are the following: the Data Collection, Video Processing,
@@ -260,15 +262,17 @@
                     src="assets\VehicleDetection.png"
                   />
                   <div id="doc" className="paragraph-text-container">
-                    <p id="doc" className="paragraph-header">Video Detection, YOLOv8, and OpenCV</p>
+                    <p id="doc" className="paragraph-header">
+                      Video Detection, YOLOv8, and OpenCV
+                    </p>
                     <p id="doc" className="paragraph-text">
                       The photo on the left is what the video processings
                       pipeline looks like. Inside of this photo, the occupied
                       spots are red while the free spots are green at this
                       moment of time. This process is done using OpenCV and
                       YOLOv8. YOLOv8 is specialized tool for object detection
-                      and OpenCV is a computer vision library and general image processing tool which backs up
-                      YOLO.
+                      and OpenCV is a computer vision library and general image
+                      processing tool which backs up YOLO.
                     </p>
                     <p id="doc" className="paragraph-text">
                       This step of our project is critical to make as accurate
@@ -318,7 +322,7 @@
                         week: "Week 4",
                         date: "June 16th 2025",
                         accomplishments: [
-                          "Implemented and tested Decision Tree and Random Forest ML models",
+                          "Implemented and tested Decision Tree and Random Forest ML models.",
                           "Created this very website :D",
                           "Continued with data collection and aggregation for ML models.",
                         ],
@@ -328,6 +332,36 @@
                         date: "June 23th 2025",
                         accomplishments: [
                           "Created the design documentation section of the website",
+                          "Designed a mock up of the web app with components",
+                          "Collected and imported more data as well as correcting some overfitting with the model",
+                          "Ran RandomCV and GridsearchCV across multiple folds for optimization and cross-validation",
+                          "Generated occupancy histograms per day to visualize trends in each lot"
+                        ],
+                      },
+                      {
+                        week: "Week 6",
+                        date: "June 30th 2025",
+                        accomplishments: [
+                          "Created 3D model assets of vehicles for the web app",
+                          "Generated occupancy graphs from the machine learning model",
+                          "Continued collecting more data to train the model"
+                        ],
+                      },
+                      {
+                        week: "Week 7",
+                        date: "July 7th 2025",
+                        accomplishments: [
+                          "Developed a finished rough layout of the parking web app and connected it to the website",
+                          "Analyzed graphs outputted by the Random Forest's prediction and the actual camera detection of that day",
+                          "Conceptualized an expansion of project utilizing more of the parking lot which requires a new detection model not based on bounding boxes or points"
+                        ],
+                      },
+                      {
+                        week: "Week 8",
+                        date: "July 14th 2025",
+                        accomplishments: [
+                          "",
+                          "",
                           "",
                         ],
                       },
@@ -361,6 +395,8 @@
         // ================================================================================================//
 
         const PredictorPage = () => (
+          <>
+          <iframe src="user_interface.html" className="user-interface-instance-container"></iframe>
           <div className="cityos-predictor-main">
             <div
               className="cityos-predictor-container"
@@ -625,13 +661,14 @@
               </div>
             </div>
           </div>
+          </>
         );
 
         return (
           <div className="cityos-app">
             <div className="background">
               <Header />
-              {currentPage === "about" ? <AboutPage /> : <PredictorPage />}
+              {currentPage === "about" ? <AboutPage/> : <PredictorPage/>}
             </div>
           </div>
         );

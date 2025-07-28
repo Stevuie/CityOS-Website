@@ -337,6 +337,15 @@ body,
 }
 
 
+.user-interface-instance-container {
+  position:relative;
+  top: 20px;
+  left: 50%;
+  transform: translate(-50%);
+  width: 1400px;
+  height: 720px;
+  border: none;
+}
 
 /* PREDICTOR */
 .cityos-predictor-main {
