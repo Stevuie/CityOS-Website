@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>user interface</title>
     <link rel="stylesheet" href="user_interface.css" />
+    <script src="user_interface.js"></script>
   </head>
 
   <body>
@@ -35,8 +36,10 @@
       <input
         type="time"
         id="time"
-        value="{time}"
+        value="07:00"
         step="900"
+        min="07:00"
+        max="19:00"
         aria-label="Enter Time"
       />
       <div class="slide-container">
@@ -44,12 +47,13 @@
           type="range"
           min="1"
           max="100"
-          value="50"
+          value="1"
           class="slider"
           id="myRange"
+          step="1"
         />
       </div>
-      <button id="submit" >Submit</button>
+      <button id="submit">Submit</button>
     </div>
     <div class="side-bar">
       <div class="spot-display"></div>
