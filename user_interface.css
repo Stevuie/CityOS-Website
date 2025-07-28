@@ -1,28 +1,37 @@
 body,
 .predictor-full-container {
   position: relative;
-  background-color: rgb(157, 157, 209);
+  background-color: #0f172a;
   margin: 0;
   padding: 0;
+  height: 100vh;
+  overflow: hidden;
+  font-family: "Inter", sans-serif;
+  color: #c4f1c4;
 }
 
 .draggable-region {
   position: absolute;
-  top: 12vh;
-  left: 10vw;
-  width: 1920px;
-  height: 1080px;
+  top: 3.5rem;
+  left: 30%;
+  right: 0;
+  bottom: 0;
   overflow: hidden;
 }
 
 .header-bar {
   position: fixed;
   display: flex;
+  align-items: center;
+  gap: 15px;
   z-index: 10;
-  background-color: rgb(241, 255, 254);
-  border-bottom: 5px solid black;
+  background: #0a5a4193;
+  backdrop-filter: blur(2px);
+  border-bottom: 3px solid #fffed0;
   width: 100vw;
-  height: 12vh;
+  height: 3.5rem;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .side-bar {
@@ -30,18 +39,45 @@ body,
   display: flex;
   flex-direction: column;
   z-index: 5;
-  background-color: rgb(241, 255, 254);
-  border-right: 5px solid black;
-  top: 12vh;
-  bottom: 0vh;
+  background: #0a5a4193;
+  backdrop-filter: blur(2px);
+  border-right: 3px solid #fffed0;
+  top: 3.5rem;
+  bottom: 0;
+  left: 0;
   width: 30%;
-  padding: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.side-bar h3 {
+  margin: 0 0 15px 0;
+  color: #fffed0;
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 2px solid #c7f361;
+  padding-bottom: 8px;
 }
 
 .spot-display {
   position: relative;
-  height:10%;
-  border: 2px solid green;
+  height: auto;
+  border: 2px solid #c7f361;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: rgba(199, 243, 97, 0.1);
+  border-radius: 8px;
+}
+
+.spot-display p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #c4f1c4;
+}
+
+.spot-display span {
+  font-weight: bold;
+  color: #c7f361;
 }
 
 .map-frame {
@@ -49,16 +85,25 @@ body,
   z-index: 0;
   top: 0;
   left: 0;
-  width: 1920px;
-  height: 1080px;
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 .background-map {
-  width: 1920px;
-  height: 1080px;
+  width: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
   overflow: hidden;
+  position: relative;
+}
+
+.background-map img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
 }
 
 .map {
@@ -66,35 +111,92 @@ body,
   z-index: 0;
   top: 0;
   left: 0;
-  width: 2000px;
-  height: 750px;
+  width: 100%;
+  height: 100%;
 }
 
+/* Parking spot containers - positioned over actual parking spots */
 .lot-container-one {
   position: absolute;
-  top: 392px;
-  left: 786px;
-  width: 435px;
-  height: 115px;
-  border: 2px solid red;
+  top: 28%;
+  left: 8%;
+  width: 65%;
+  height: 4%;
+  display: flex;
+  gap: 0.5px;
+  z-index: 5;
 }
 
 .lot-container-two {
   position: absolute;
-  top: 520px;
-  left: 786px;
-  width: 435px;
-  height: 115px;
-  border: 2px solid blue;
+  top: 42%;
+  left: 8%;
+  width: 65%;
+  height: 4%;
+  display: flex;
+  gap: 0.5px;
+  z-index: 5;
 }
 
 .lot-container-three {
   position: absolute;
-  top: 830px;
-  left: 933px;
-  width: 435px;
-  height: 115px;
-  border: 2px solid green;
+  top: 56%;
+  left: 8%;
+  width: 65%;
+  height: 4%;
+  display: flex;
+  gap: 0.5px;
+  z-index: 5;
+}
+
+/* Individual parking spots */
+.parking-spot {
+  flex: 1;
+  height: 100%;
+  border: 1px solid #c4f1c4;
+  background-color: rgba(199, 243, 97, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: bold;
+  color: #14222b;
+  border-radius: 1px;
+  font-family: "Inter", sans-serif;
+  min-width: 15px;
+  position: relative;
+}
+
+.parking-spot:hover {
+  background-color: rgba(199, 243, 97, 0.7);
+  border-color: #fffed0;
+  transform: scale(1.15);
+  box-shadow: 0 2px 6px rgba(199, 243, 97, 0.5);
+  z-index: 10;
+}
+
+.parking-spot.selected {
+  background-color: rgba(199, 243, 97, 0.95);
+  border-color: #fffed0;
+  color: #14222b;
+  box-shadow: 0 2px 6px rgba(199, 243, 97, 0.7);
+  z-index: 10;
+  transform: scale(1.1);
+}
+
+.parking-spot.occupied {
+  background-color: rgba(239, 68, 68, 0.8);
+  border-color: #ef4444;
+  color: white;
+  font-size: 6px;
+  cursor: not-allowed;
+}
+
+.parking-spot.occupied:hover {
+  transform: none;
+  box-shadow: none;
 }
 
 .lot {
@@ -103,59 +205,152 @@ body,
   height: 115px;
   border: 2px solid red;
 }
-#spot-id {
-  width: 10%;
+
+.header-bar label {
+  font-weight: 600;
+  color: #fffed0;
+  font-size: 14px;
+  white-space: nowrap;
+  font-family: "Inter", sans-serif;
 }
 
-#day {
-  width: 10%;
-}
-
+#spot-id,
+#day,
 #time {
-  width: 10%;
+  width: 120px;
+  padding: 8px 12px;
+  border: 2px solid #c4f1c4;
+  border-radius: 6px;
+  background-color: rgba(15, 23, 42, 0.8);
+  color: #c4f1c4;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+#spot-id:focus,
+#day:focus,
+#time:focus {
+  outline: none;
+  border-color: #c7f361;
+  box-shadow: 0 0 0 3px rgba(199, 243, 97, 0.2);
+}
+
+#spot-id option,
+#day option {
+  background-color: #14222b;
+  color: #c4f1c4;
 }
 
 #submit {
-  width: 15%;
+  width: 100px;
+  padding: 8px 16px;
+  background: #c7f361;
+  color: #14222b;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+  transition: all 0.2s ease;
+  font-size: 14px;
 }
+
+#submit:hover {
+  background: #fffed0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(199, 243, 97, 0.3);
+}
+
 .slide-container {
-  width: 55%;
-  padding: 5px;
+  flex: 1;
+  padding: 0 20px;
+  max-width: 400px;
+}
+
+.slide-container label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #fffed0;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
 }
 
 .slider {
-  position: relative;
-  top: 50%;
-  left: 49.8%;
-  transform: translate(-50%, -52%);
-  -webkit-appearance: none; /* Override default CSS styles */
+  width: 100%;
+  height: 8px;
+  -webkit-appearance: none;
   appearance: none;
-  width: 100%; /* Full-width */
-  height: 10%; /* Specified height */
-  background: #d3d3d3; /* Grey background */
-  outline: none; /* Remove outline */
-  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-  -webkit-transition: 0.2s; /* 0.2 seconds transition on hover */
+  background: rgba(196, 241, 196, 0.3);
+  outline: none;
+  opacity: 0.8;
+  -webkit-transition: 0.2s;
   transition: opacity 0.2s;
+  border-radius: 4px;
 }
 
 .slider:hover {
-  opacity: 1; /* Fully shown on mouse-over */
+  opacity: 1;
 }
 
-/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
 .slider::-webkit-slider-thumb {
-  -webkit-appearance: none; /* Override default look */
+  -webkit-appearance: none;
   appearance: none;
-  width: 25px; /* Set a specific slider handle width */
-  height: 25px; /* Slider handle height */
-  background: #04aa6d; /* Green background */
-  cursor: pointer; /* Cursor on hover */
+  width: 20px;
+  height: 20px;
+  background: #c7f361;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 2px solid #fffed0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .slider::-moz-range-thumb {
-  width: 25px; /* Set a specific slider handle width */
-  height: 25px; /* Slider handle height */
-  background: #04aa6d; /* Green background */
-  cursor: pointer; /* Cursor on hover */
+  width: 20px;
+  height: 20px;
+  background: #c7f361;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 2px solid #fffed0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Notification styling */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #c7f361;
+  color: #14222b;
+  padding: 15px 20px;
+  border-radius: 8px;
+  z-index: 1000;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+  box-shadow: 0 4px 12px rgba(199, 243, 97, 0.3);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* Scrollbar styling to match theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c4f1c4;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c7f361;
 }

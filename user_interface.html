@@ -3,46 +3,97 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>user interface</title>
+    <title>CityOS - Map Interface</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="user_interface.css" />
     <script src="user_interface.js"></script>
   </head>
 
   <body>
     <div class="header-bar">
-      <select id="spot-id" value="{spot}">
-        <option value="null">Choose Spot</option>
-        <option value="spot_1">Spot 1</option>
-        <option value="spot_2">Spot 2</option>
-        <option value="spot_3">Spot 3</option>
-        <option value="spot_4">Spot 4</option>
-        <option value="spot_5">Spot 5</option>
-        <option value="spot_6">Spot 6</option>
-        <option value="spot_10">Spot 10</option>
-        <option value="spot_12">Spot 12</option>
-        <option value="spot_13">Spot 13</option>
-        <option value="spot_14">Spot 14</option>
-      </select>
-      <select id="day" value="{day}">
-        <option value="null">Choose Day</option>
-        <option value="monday">Monday</option>
-        <option value="tuesday">Tuesday</option>
-        <option value="wednesday">Wednesday</option>
-        <option value="thursday">Thursday</option>
-        <option value="friday">Friday</option>
-        <option value="saturday">Saturday</option>
-        <option value="sunday">Sunday</option>
-      </select>
-      <input
-        type="time"
-        id="time"
-        value="07:00"
-        step="900"
-        min="07:00"
-        max="19:00"
-        aria-label="Enter Time"
-      />
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <svg
+          style="width: 2rem; height: 2rem; color: #fffed0;"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+          <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1V8a1 1 0 00-1-1h-3z" />
+        </svg>
+        <h1 style="font-size: 1.25rem; font-weight: bold; color: #fffed0; margin: 0;">
+          <span style="font-style: italic; font-family: 'Times New Roman', Times, serif; font-size: larger;">City</span>OS Parking
+        </h1>
+      </div>
+      
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <label for="spot-id">Spot:</label>
+        <select id="spot-id" value="{spot}">
+          <option value="null">Choose Spot</option>
+          <option value="spot_1">Spot 1</option>
+          <option value="spot_2">Spot 2</option>
+          <option value="spot_3">Spot 3</option>
+          <option value="spot_4">Spot 4</option>
+          <option value="spot_5">Spot 5</option>
+          <option value="spot_6">Spot 6</option>
+          <option value="spot_7">Spot 7</option>
+          <option value="spot_8">Spot 8</option>
+          <option value="spot_9">Spot 9</option>
+          <option value="spot_10">Spot 10</option>
+          <option value="spot_11">Spot 11</option>
+          <option value="spot_12">Spot 12</option>
+          <option value="spot_13">Spot 13</option>
+          <option value="spot_14">Spot 14</option>
+          <option value="spot_15">Spot 15</option>
+          <option value="spot_16">Spot 16</option>
+          <option value="spot_17">Spot 17</option>
+          <option value="spot_18">Spot 18</option>
+          <option value="spot_19">Spot 19</option>
+          <option value="spot_20">Spot 20</option>
+          <option value="spot_21">Spot 21</option>
+          <option value="spot_22">Spot 22</option>
+          <option value="spot_23">Spot 23</option>
+          <option value="spot_24">Spot 24</option>
+          <option value="spot_25">Spot 25</option>
+          <option value="spot_26">Spot 26</option>
+          <option value="spot_27">Spot 27</option>
+          <option value="spot_28">Spot 28</option>
+          <option value="spot_29">Spot 29</option>
+          <option value="spot_30">Spot 30</option>
+        </select>
+      </div>
+      
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <label for="day">Day:</label>
+        <select id="day" value="{day}">
+          <option value="null">Choose Day</option>
+          <option value="monday">Monday</option>
+          <option value="tuesday">Tuesday</option>
+          <option value="wednesday">Wednesday</option>
+          <option value="thursday">Thursday</option>
+          <option value="friday">Friday</option>
+          <option value="saturday">Saturday</option>
+          <option value="sunday">Sunday</option>
+        </select>
+      </div>
+      
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <label for="time">Time:</label>
+        <input
+          type="time"
+          id="time"
+          value="07:00"
+          step="900"
+          min="07:00"
+          max="19:00"
+          aria-label="Enter Time"
+        />
+      </div>
+      
       <div class="slide-container">
+        <label for="myRange">Time Slider:</label>
         <input
           type="range"
           min="1"
@@ -53,11 +104,19 @@
           step="1"
         />
       </div>
+      
       <button id="submit">Submit</button>
     </div>
+    
     <div class="side-bar">
-      <div class="spot-display"></div>
+      <h3>Parking Information</h3>
+      <div class="spot-display">
+        <p>Selected Spot: <span id="selected-spot">None</span></p>
+        <p>Selected Day: <span id="selected-day">None</span></p>
+        <p>Selected Time: <span id="selected-time">07:00</span></p>
+      </div>
     </div>
+    
     <div class="draggable-region">
       <iframe src="map.html" class="map-frame" draggable="false"></iframe>
     </div>

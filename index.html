@@ -118,6 +118,16 @@
                   >
                     Parking Predictor
                   </button>
+                  <button
+                    onClick={() => setCurrentPage("map")}
+                    className={`cityos-btn cityos-btn-nav${
+                      currentPage === "map"
+                        ? " cityos-btn-nav-active"
+                        : ""
+                    }`}
+                  >
+                    Map Interface
+                  </button>
                 </nav>
               </div>
             </div>
@@ -395,8 +405,6 @@
         // ================================================================================================//
 
         const PredictorPage = () => (
-          <>
-          <iframe src="user_interface.html" className="user-interface-instance-container"></iframe>
           <div className="cityos-predictor-main">
             <div
               className="cityos-predictor-container"
@@ -661,14 +669,456 @@
               </div>
             </div>
           </div>
-          </>
         );
+
+        const MapPage = () => {
+          const [mapSpot, setMapSpot] = useState("spot_1");
+          const [mapDay, setMapDay] = useState("Monday");
+          const [mapTime, setMapTime] = useState("07:00");
+          const [mapTimeSlider, setMapTimeSlider] = useState(1);
+          const [mapPredictionResult, setMapPredictionResult] = useState(null);
+          const [selectedSpot, setSelectedSpot] = useState(null);
+          const [occupiedSpots] = useState(['spot_3', 'spot_7', 'spot_15', 'spot_22', 'spot_28']);
+
+          // Create parking spots data
+          const parkingSpots = [];
+          for (let row = 1; row <= 3; row++) {
+            for (let pos = 1; pos <= 10; pos++) {
+              const spotNumber = (row - 1) * 10 + pos;
+              parkingSpots.push({
+                id: `spot_${spotNumber}`,
+                row: row,
+                position: pos,
+                number: spotNumber
+              });
+            }
+          }
+
+          const sliderMin = 7; // 7 AM
+          const sliderMax = 19; // 7 PM
+
+          // Helper: Convert slider (1–100) → time string
+          const sliderToTime = (value) => {
+            const hours = sliderMin + (value / 100) * (sliderMax - sliderMin);
+            const hourStr = Math.floor(hours).toString().padStart(2, "0");
+            const minStr = Math.round((hours % 1) * 60)
+              .toString()
+              .padStart(2, "0");
+            return `${hourStr}:${minStr}`;
+          };
+
+          // Helper: Convert time string (HH:MM) → slider value (1–100)
+          const timeToSlider = (timeStr) => {
+            const [h, m] = timeStr.split(":").map(Number);
+            const decimalHours = h + m / 60;
+            const sliderVal =
+              ((decimalHours - sliderMin) / (sliderMax - sliderMin)) * 100;
+            return Math.min(100, Math.max(1, Math.round(sliderVal)));
+          };
+
+          // Synchronize slider → time input
+          const handleSliderChange = (e) => {
+            const sliderValue = parseInt(e.target.value);
+            setMapTimeSlider(sliderValue);
+            const syncedTime = sliderToTime(sliderValue);
+            setMapTime(syncedTime);
+          };
+
+          // Synchronize time input → slider
+          const handleTimeChange = (e) => {
+            const newTime = e.target.value;
+            setMapTime(newTime);
+            const sliderValue = timeToSlider(newTime);
+            setMapTimeSlider(sliderValue);
+          };
+
+          const handleSpotClick = (spotId, spotNumber) => {
+            setSelectedSpot(spotId);
+            setMapSpot(spotId);
+          };
+
+          const handleMapPrediction = async () => {
+            const [hour, minute] = mapTime.split(":");
+
+            try {
+              const response = await fetch("http://127.0.0.1:5000/predict", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  spot_id: mapSpot,
+                  day: mapDay,
+                  hour: hour,
+                  minute: minute,
+                }),
+              });
+
+              if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+
+              const data = await response.json();
+              setMapPredictionResult(data.status);
+            } catch (error) {
+              console.error("Prediction error:", error);
+              alert(
+                "Error getting prediction. Please make sure the ML server is running."
+              );
+            }
+          };
+
+          const getSpotStyle = (spot) => {
+            const isSelected = selectedSpot === spot.id;
+            const isOccupied = occupiedSpots.includes(spot.id);
+            
+            let backgroundColor = "rgba(199, 243, 97, 0.1)";
+            let borderColor = "#c4f1c4";
+            let color = "#14222b";
+            
+            if (isSelected) {
+              backgroundColor = "rgba(199, 243, 97, 0.95)";
+              borderColor = "#fffed0";
+            } else if (isOccupied) {
+              backgroundColor = "rgba(239, 68, 68, 0.8)";
+              borderColor = "#ef4444";
+              color = "white";
+            }
+            
+            return {
+              flex: 1,
+              height: "100%",
+              border: `1px solid ${borderColor}`,
+              backgroundColor: backgroundColor,
+              cursor: isOccupied ? "not-allowed" : "pointer",
+              transition: "all 0.3s ease",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "8px",
+              fontWeight: "bold",
+              color: color,
+              borderRadius: "1px",
+              fontFamily: "Inter, sans-serif",
+              minWidth: "15px",
+              position: "relative",
+              zIndex: isSelected ? 10 : 5
+            };
+          };
+
+          return (
+            <div style={{
+              minHeight: "100vh",
+              paddingTop: "3.5rem",
+              backgroundColor: "#0f172a",
+              fontFamily: "Inter, sans-serif"
+            }}>
+              <div style={{
+                position: "relative",
+                height: "calc(100vh - 3.5rem)"
+              }}>
+                {/* Header Controls */}
+                <div style={{
+                  position: "fixed",
+                  top: "3.5rem",
+                  left: "30%",
+                  right: 0,
+                  height: "4rem",
+                  background: "#0a5a4193",
+                  backdropFilter: "blur(2px)",
+                  borderBottom: "3px solid #fffed0",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "1rem",
+                  padding: "0 1rem",
+                  zIndex: 10
+                }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <span style={{ color: "#fffed0", fontWeight: "600", fontSize: "14px" }}>Spot:</span>
+                    <select
+                      value={mapSpot}
+                      onChange={(e) => setMapSpot(e.target.value)}
+                      style={{
+                        padding: "0.5rem",
+                        borderRadius: "0.375rem",
+                        border: "2px solid #c4f1c4",
+                        backgroundColor: "rgba(15, 23, 42, 0.8)",
+                        color: "#c4f1c4",
+                        fontFamily: "Inter, sans-serif",
+                        fontSize: "14px"
+                      }}
+                    >
+                      {parkingSpots.map(spot => (
+                        <option key={spot.id} value={spot.id}>Spot {spot.number}</option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <span style={{ color: "#fffed0", fontWeight: "600", fontSize: "14px" }}>Day:</span>
+                    <select
+                      value={mapDay}
+                      onChange={(e) => setMapDay(e.target.value)}
+                      style={{
+                        padding: "0.5rem",
+                        borderRadius: "0.375rem",
+                        border: "2px solid #c4f1c4",
+                        backgroundColor: "rgba(15, 23, 42, 0.8)",
+                        color: "#c4f1c4",
+                        fontFamily: "Inter, sans-serif",
+                        fontSize: "14px"
+                      }}
+                    >
+                      <option value="Monday">Monday</option>
+                      <option value="Tuesday">Tuesday</option>
+                      <option value="Wednesday">Wednesday</option>
+                      <option value="Thursday">Thursday</option>
+                      <option value="Friday">Friday</option>
+                      <option value="Saturday">Saturday</option>
+                      <option value="Sunday">Sunday</option>
+                    </select>
+                  </div>
+                  
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <span style={{ color: "#fffed0", fontWeight: "600", fontSize: "14px" }}>Time:</span>
+                    <input
+                      type="time"
+                      value={mapTime}
+                      onChange={handleTimeChange}
+                      step="900"
+                      min="07:00"
+                      max="19:00"
+                      style={{
+                        padding: "0.5rem",
+                        borderRadius: "0.375rem",
+                        border: "2px solid #c4f1c4",
+                        backgroundColor: "rgba(15, 23, 42, 0.8)",
+                        color: "#c4f1c4",
+                        fontFamily: "Inter, sans-serif",
+                        fontSize: "14px"
+                      }}
+                    />
+                  </div>
+                  
+                  <div style={{ 
+                    flex: 1, 
+                    padding: "0 1rem", 
+                    maxWidth: "400px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "0.25rem"
+                  }}>
+                    <span style={{ color: "#fffed0", fontWeight: "600", fontSize: "14px" }}>Time Slider:</span>
+                    <input
+                      type="range"
+                      min="1"
+                      max="100"
+                      value={mapTimeSlider}
+                      onChange={handleSliderChange}
+                      style={{
+                        width: "100%",
+                        height: "8px",
+                        borderRadius: "4px",
+                        background: "rgba(196, 241, 196, 0.3)",
+                        outline: "none",
+                        WebkitAppearance: "none"
+                      }}
+                    />
+                  </div>
+                  
+                  <button
+                    onClick={handleMapPrediction}
+                    style={{
+                      padding: "0.5rem 1rem",
+                      background: "#c7f361",
+                      color: "#14222b",
+                      border: "none",
+                      borderRadius: "6px",
+                      fontWeight: "600",
+                      fontFamily: "Inter, sans-serif",
+                      cursor: "pointer",
+                      fontSize: "14px"
+                    }}
+                  >
+                    Submit
+                  </button>
+                  
+                  {mapPredictionResult && (
+                    <div style={{
+                      padding: "0.5rem 1rem",
+                      backgroundColor: mapPredictionResult === "Free" ? "#10b981" : "#ef4444",
+                      color: "white",
+                      borderRadius: "0.375rem",
+                      fontWeight: "bold"
+                    }}>
+                      {mapPredictionResult}
+                    </div>
+                  )}
+                </div>
+                
+                {/* Side Bar */}
+                <div style={{
+                  position: "fixed",
+                  top: "7.5rem",
+                  left: 0,
+                  bottom: 0,
+                  width: "30%",
+                  background: "#0a5a4193",
+                  backdropFilter: "blur(2px)",
+                  borderRight: "3px solid #fffed0",
+                  padding: "1rem",
+                  zIndex: 5
+                }}>
+                  <h3 style={{ 
+                    margin: "0 0 1rem 0", 
+                    color: "#fffed0", 
+                    fontSize: "18px",
+                    fontWeight: "bold",
+                    borderBottom: "2px solid #c7f361",
+                    paddingBottom: "0.5rem"
+                  }}>
+                    Parking Information
+                  </h3>
+                  <div style={{
+                    border: "2px solid #c7f361",
+                    padding: "1rem",
+                    borderRadius: "8px",
+                    backgroundColor: "rgba(199, 243, 97, 0.1)"
+                  }}>
+                    <p style={{ margin: "0.5rem 0", fontSize: "14px", color: "#c4f1c4" }}>
+                      Selected Spot: <span style={{ fontWeight: "bold", color: "#c7f361" }}>
+                        {mapSpot === "spot_1" ? "None" : mapSpot}
+                      </span>
+                    </p>
+                    <p style={{ margin: "0.5rem 0", fontSize: "14px", color: "#c4f1c4" }}>
+                      Selected Day: <span style={{ fontWeight: "bold", color: "#c7f361" }}>
+                        {mapDay}
+                      </span>
+                    </p>
+                    <p style={{ margin: "0.5rem 0", fontSize: "14px", color: "#c4f1c4" }}>
+                      Selected Time: <span style={{ fontWeight: "bold", color: "#c7f361" }}>
+                        {mapTime}
+                      </span>
+                    </p>
+                    {mapPredictionResult && (
+                      <p style={{ 
+                        margin: "0.5rem 0 0 0", 
+                        fontWeight: "bold",
+                        color: mapPredictionResult === "Free" ? "#10b981" : "#ef4444"
+                      }}>
+                        Status: {mapPredictionResult}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                
+                {/* Map Area */}
+                <div style={{
+                  position: "absolute",
+                  top: "7.5rem",
+                  left: "30%",
+                  right: 0,
+                  bottom: 0,
+                  overflow: "hidden",
+                  zIndex: 0
+                }}>
+                  <div style={{
+                    width: "100%",
+                    height: "100%",
+                    position: "relative"
+                  }}>
+                    <img 
+                      src="assets/CityOSMap.png"
+                      alt="CityOS Parking Lot Map"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "contain",
+                        objectPosition: "center"
+                      }}
+                    />
+                    
+                    {/* Interactive Parking Spots */}
+                    {/* Row 1 */}
+                    <div style={{
+                      position: "absolute",
+                      top: "28%",
+                      left: "8%",
+                      width: "65%",
+                      height: "4%",
+                      display: "flex",
+                      gap: "0.5px",
+                      zIndex: 5
+                    }}>
+                      {parkingSpots.filter(spot => spot.row === 1).map(spot => (
+                        <div
+                          key={spot.id}
+                          style={getSpotStyle(spot)}
+                          onClick={() => !occupiedSpots.includes(spot.id) && handleSpotClick(spot.id, spot.number)}
+                          title={`Parking Spot ${spot.number}`}
+                        >
+                          {occupiedSpots.includes(spot.id) ? 'OCC' : spot.number}
+                        </div>
+                      ))}
+                    </div>
+                    
+                    {/* Row 2 */}
+                    <div style={{
+                      position: "absolute",
+                      top: "42%",
+                      left: "8%",
+                      width: "65%",
+                      height: "4%",
+                      display: "flex",
+                      gap: "0.5px",
+                      zIndex: 5
+                    }}>
+                      {parkingSpots.filter(spot => spot.row === 2).map(spot => (
+                        <div
+                          key={spot.id}
+                          style={getSpotStyle(spot)}
+                          onClick={() => !occupiedSpots.includes(spot.id) && handleSpotClick(spot.id, spot.number)}
+                          title={`Parking Spot ${spot.number}`}
+                        >
+                          {occupiedSpots.includes(spot.id) ? 'OCC' : spot.number}
+                        </div>
+                      ))}
+                    </div>
+                    
+                    {/* Row 3 */}
+                    <div style={{
+                      position: "absolute",
+                      top: "56%",
+                      left: "8%",
+                      width: "65%",
+                      height: "4%",
+                      display: "flex",
+                      gap: "0.5px",
+                      zIndex: 5
+                    }}>
+                      {parkingSpots.filter(spot => spot.row === 3).map(spot => (
+                        <div
+                          key={spot.id}
+                          style={getSpotStyle(spot)}
+                          onClick={() => !occupiedSpots.includes(spot.id) && handleSpotClick(spot.id, spot.number)}
+                          title={`Parking Spot ${spot.number}`}
+                        >
+                          {occupiedSpots.includes(spot.id) ? 'OCC' : spot.number}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        };
 
         return (
           <div className="cityos-app">
             <div className="background">
               <Header />
-              {currentPage === "about" ? <AboutPage/> : <PredictorPage/>}
+              {currentPage === "about" ? <AboutPage/> : currentPage === "predictor" ? <PredictorPage/> : <MapPage/>}
             </div>
           </div>
         );
