@@ -672,7 +672,7 @@
           const [mapTimeSlider, setMapTimeSlider] = useState(1);
           const [mapPredictionResult, setMapPredictionResult] = useState(null);
           const [selectedSpot, setSelectedSpot] = useState(null);
-          const [occupiedSpots] = useState([
+          const [occupiedSpots, setOccupiedSpots] = useState([
             "spot_3",
             "spot_7",
             "spot_15",
@@ -764,6 +764,18 @@
 
               const data = await response.json();
               setMapPredictionResult(data.status);
+
+              if (data.status === "Occupied") {
+                setOccupiedSpots((prevSpots) =>
+                  prevSpots.includes(mapSpot)
+                    ? prevSpots
+                    : [...prevSpots, mapSpot]
+                );
+              } else {
+                setOccupiedSpots((prevSpots) =>
+                  prevSpots.filter((spotId) => spotId !== mapSpot)
+                );
+              }
             } catch (error) {
               console.error("Prediction error:", error);
               alert(
@@ -1247,9 +1259,9 @@
                         position: "absolute",
                         top: "77.8%",
                         left: "53.2%",
-                        width: "17.3%",
+                        width: "16.5%",
                         height: "11%",
-                        gap: "3.3%",
+                        gap: "4%",
                         display: "flex",
 
                         zIndex: 5,
@@ -1295,7 +1307,6 @@
           </div>
         );
       }
-
       ReactDOM.render(<App />, document.getElementById("root"));
     </script>
   </body>
