@@ -104,18 +104,13 @@ body,
   height: 100%;
   object-fit: contain;
   object-position: center;
-}
-
-.map {
   position: absolute;
-  z-index: 0;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  z-index: 1;
 }
 
-/* Parking spot containers - positioned over actual parking spots */
+/* Parking spot containers - positioned relative to the map image */
 .lot-container-one {
   position: absolute;
   top: 13.9%;
@@ -124,7 +119,8 @@ body,
   height: 11%;
   gap: 2.5%;
   display: flex;
-  z-index: 5;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 .lot-container-two {
@@ -135,7 +131,8 @@ body,
   height: 10%;
   gap: 3%;
   display: flex;
-  z-index: 5;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 .lot-container-three {
@@ -146,7 +143,8 @@ body,
   height: 10%;
   gap: 3%;
   display: flex;
-  z-index: 5;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 .lot-container-four {
@@ -157,7 +155,8 @@ body,
   height: 12%;
   gap: 3%;
   display: flex;
-  z-index: 5;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 /* Individual parking spots */

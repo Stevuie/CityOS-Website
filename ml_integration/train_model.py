@@ -5,11 +5,13 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 import numpy as np
 import sys
 import joblib
+import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 
 try:
-    df = pd.read_csv('masterdata.csv')
+    df = pd.read_csv('masterdata1.csv')
 except FileNotFoundError:
-    print("Error: 'masterdata.csv' not found.")
+    print("Error: 'masterdata1.csv' not found.")
     sys.exit()
 
 # --- Data Preparation (No Changes) ---
@@ -72,6 +74,5 @@ print("\nModel saved to parking_model.pkl")
 day_map = {'Monday': 0, 'Tuesday': 1, 'Wednesday': 2, 'Thursday': 3, 'Friday': 4, 'Saturday': 5, 'Sunday': 6}
 joblib.dump(day_map, 'day_map.pkl')
 print("Day map saved to day_map.pkl")
-
 
 print("\nModel training and evaluation complete!") 

@@ -87,6 +87,66 @@ def predict():
         print(f"Error: {e}")
         return jsonify({'error': str(e)}), 400
 
+@app.route('/predict_batch', methods=['POST'])
+def predict_batch():
+    data = request.get_json()
+    try:
+        spot_ids = data['spot_ids']  # List of spot IDs
+        day_name = data['day']
+        hour = int(data['hour'])
+        minute = int(data['minute'])
+
+        current_time = datetime.now()
+        # Build a DataFrame for all spots
+        example_data = {
+            'SpotID': spot_ids,
+            'Month': [current_time.month] * len(spot_ids),
+            'Day': [day_name] * len(spot_ids),
+            'Year': [current_time.year] * len(spot_ids),
+            'Hour': [hour] * len(spot_ids),
+            'Minute': [minute] * len(spot_ids)
+        }
+        new_data_point = pd.DataFrame(example_data)
+
+        # One-hot encode 'Day' just like in training
+        days_of_week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        new_data_point['Day'] = pd.Categorical(new_data_point['Day'], categories=days_of_week, ordered=True)
+        new_data_point = pd.get_dummies(new_data_point, columns=['Day'], drop_first=True)
+
+        # SpotID: extract numeric part if needed
+        if 'SpotID' in new_data_point.columns:
+            new_data_point['SpotID'] = new_data_point['SpotID'].str.replace('spot_', '').astype(int)
+
+        # Remove columns not used in training
+        features_to_drop = ['Year', 'Date', 'Month', 'Second', 'Status']
+        for col in features_to_drop:
+            if col in new_data_point.columns:
+                new_data_point = new_data_point.drop(columns=[col])
+
+        # Ensure all expected columns are present
+        expected_features = list(model.feature_names_in_)
+        for col in expected_features:
+            if col not in new_data_point.columns:
+                new_data_point[col] = 0
+        new_data_point = new_data_point[expected_features]
+
+        # --- Make Predictions ---
+        prediction_numeric = model.predict(new_data_point)
+        prediction_proba = model.predict_proba(new_data_point)
+
+        results = {}
+        for i, spot_id in enumerate(spot_ids):
+            status = 'Occupied' if prediction_numeric[i] == 1 else 'Free'
+            confidence = prediction_proba[i][np.argmax(prediction_proba[i])]
+            results[spot_id] = {
+                'status': status,
+                'confidence': f"{confidence:.2%}"
+            }
+        return jsonify(results)
+    except Exception as e:
+        print(f"Batch prediction error: {e}")
+        return jsonify({'error': str(e)}), 400
+
 @app.after_request
 def add_private_network_header(response):
     response.headers['Access-Control-Allow-Private-Network'] = 'true'
