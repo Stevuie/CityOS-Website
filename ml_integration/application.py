@@ -1,16 +1,16 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template, send_from_directory
 import pandas as pd
 import joblib
 import numpy as np
 from datetime import datetime
-from flask_cors import CORS  # Add CORS support
 import os
 import sys
 import csv
 
-# Initialize the Flask application
-app = Flask(__name__)
-CORS(app, origins=["http://localhost:8000", "https://stevuie.github.io"])  # Enable CORS for the GitHub Pages frontend
+# Initialize the Flask application with custom template and static folders
+app = Flask(__name__, 
+            template_folder='../CityOSUI/templates',
+            static_folder='../CityOSUI/static')
 application = app
 
 # Load the trained model and the day map
@@ -23,6 +23,29 @@ except FileNotFoundError:
     print("Model file not found. Please run train_model.py first.")
     exit()
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/map')
+def map_page():
+    return render_template('map.html')
+
+@app.route('/user_interface')
+def user_interface():
+    return render_template('user_interface.html')
+
+# Serve static files from the assets folder
+@app.route('/assets/<path:filename>')
+def assets(filename):
+    assets_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'assets')
+    return send_from_directory(assets_dir, filename)
+
+# Serve images from the images folder
+@app.route('/images/<path:filename>')
+def images(filename):
+    images_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'images')
+    return send_from_directory(images_dir, filename)
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -153,4 +176,4 @@ def add_private_network_header(response):
     return response
 
 if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1', port=5000) 
+    app.run(debug=True, host='0.0.0.0', port=3000) 
