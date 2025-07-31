@@ -887,14 +887,34 @@
               <div className="map-page-content">
                 {/* Header Controls */}
                 <div className="map-header">
-                  <div className="map-controls">
-                    <span className="map-control-label">
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: "#fffed0",
+                        fontWeight: "600",
+                        fontSize: "14px",
+                      }}
+                    >
                       Spot:
                     </span>
                     <select
                       value={mapSpot}
                       onChange={(e) => setMapSpot(e.target.value)}
-                      className="map-control-select"
+                      style={{
+                        padding: "0.5rem",
+                        borderRadius: "0.375rem",
+                        border: "2px solid #c4f1c4",
+                        backgroundColor: "rgba(15, 23, 42, 0.8)",
+                        color: "#c4f1c4",
+                        fontFamily: "Inter, sans-serif",
+                        fontSize: "14px",
+                      }}
                     >
                       {parkingSpots.map((spot) => (
                         <option key={spot.id} value={spot.id}>
