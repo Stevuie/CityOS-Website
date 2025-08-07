@@ -11,7 +11,10 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="{{ url_for('static', filename='clientside.css') }}" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='clientside.css') }}"
+    />
   </head>
   <body class="cityos-body">
     <div id="root"></div>
@@ -368,7 +371,29 @@
                       {
                         week: "Week 8",
                         date: "July 14th 2025",
-                        accomplishments: ["", "", ""],
+                        accomplishments: [
+                          "Began annotation and cropping of parking images used to train another YOLO detection model",
+                          "Continued work on the web app: developed and laid out buttons and made this orbit website",
+                          "Connected the prediction model to the old UI system",
+                        ],
+                      },
+                      {
+                        week: "Week 9",
+                        date: "July 21th 2025",
+                        accomplishments: [
+                          "Trained the new YOLO detection model off of the cropped parking images and generated training and validation loss graphs",
+                          "Continued developing functionality to the user interface: collecting user information and formatting the parking map",
+                          "Created a script that takes a folder in the format YYYY-MM-DD based on today’s date and appends it to the master dataset for ML automation",
+                        ],
+                      },
+                      {
+                        week: "Week 10",
+                        date: "July 28th 2025",
+                        accomplishments: [
+                          "Finalized the web app UI: fully connected the requests to the ML model and have it properly displayed back",
+                          "Finalized the project poster and final presentation",
+                          "Cried happy tears  :>",
+                        ],
                       },
                     ].map((week, index) => (
                       <div key={index} className="cityos-timeline-card">
@@ -401,17 +426,13 @@
 
         const PredictorPage = () => (
           <div className="cityos-predictor-main">
-            <div
-              className="cityos-predictor-container predictor-container-style"
-            >
+            <div className="cityos-predictor-container predictor-container-style">
               <div className="cityos-predictor-titlewrap">
                 <h1 className="cityos-predictor-title">
                   Parking Availability Predictor
                 </h1>
               </div>
-                              <div
-                  className="cityos-predictor-panel predictor-panel-style"
-                >
+              <div className="cityos-predictor-panel predictor-panel-style">
                 <div className="cityos-predictor-fields">
                   <div>
                     <label htmlFor="spot-id" className="cityos-predictor-label">
@@ -656,7 +677,7 @@
             setMapTimeSlider(sliderValue);
             const syncedTime = sliderToTime(sliderValue);
             setMapTime(syncedTime);
-            
+
             // Automatically check all spots when slider changes
             setTimeout(() => {
               handleBatchPrediction();
@@ -669,7 +690,7 @@
             setMapTime(newTime);
             const sliderValue = timeToSlider(newTime);
             setMapTimeSlider(sliderValue);
-            
+
             // Automatically check all spots when time input changes
             setTimeout(() => {
               handleBatchPrediction();
@@ -729,7 +750,7 @@
 
           const handleBatchPrediction = async () => {
             const [hour, minute] = mapTime.split(":");
-            const allSpotIds = parkingSpots.map(spot => spot.id);
+            const allSpotIds = parkingSpots.map((spot) => spot.id);
 
             try {
               const response = await fetch("/predict_batch", {
@@ -750,17 +771,19 @@
               }
 
               const data = await response.json();
-              
+
               // Update occupied spots based on batch predictions
               const occupiedSpotIds = Object.keys(data).filter(
-                spotId => data[spotId].status === "Occupied"
+                (spotId) => data[spotId].status === "Occupied"
               );
               setOccupiedSpots(occupiedSpotIds);
-              
+
               // Clear individual prediction result since we're showing all spots
               setMapPredictionResult(null);
-              
-              console.log(`Updated map with ${occupiedSpotIds.length} occupied spots out of ${allSpotIds.length} total spots`);
+
+              console.log(
+                `Updated map with ${occupiedSpotIds.length} occupied spots out of ${allSpotIds.length} total spots`
+              );
             } catch (error) {
               console.error("Batch prediction error:", error);
               alert(
@@ -773,19 +796,20 @@
 
           const predictNextStatusChange = async () => {
             if (!selectedSpot) return;
-            
+
             const [currentHour, currentMinute] = mapTime.split(":");
-            const currentTime = parseInt(currentHour) * 60 + parseInt(currentMinute);
-            
+            const currentTime =
+              parseInt(currentHour) * 60 + parseInt(currentMinute);
+
             // Check next 12 hours (every 30 minutes)
             const timeSlots = [];
             for (let i = 1; i <= 24; i++) {
-              const futureTime = currentTime + (i * 30);
+              const futureTime = currentTime + i * 30;
               const futureHour = Math.floor(futureTime / 60) % 24;
               const futureMinute = futureTime % 60;
               timeSlots.push({
-                hour: futureHour.toString().padStart(2, '0'),
-                minute: futureMinute.toString().padStart(2, '0')
+                hour: futureHour.toString().padStart(2, "0"),
+                minute: futureMinute.toString().padStart(2, "0"),
               });
             }
 
@@ -801,8 +825,9 @@
                   minute: currentMinute,
                 }),
               });
-              
-              if (!currentResponse.ok) throw new Error("Failed to get current status");
+
+              if (!currentResponse.ok)
+                throw new Error("Failed to get current status");
               const currentData = await currentResponse.json();
               const currentStatus = currentData.status;
 
@@ -818,26 +843,25 @@
                     minute: timeSlot.minute,
                   }),
                 });
-                
+
                 if (!response.ok) continue;
                 const data = await response.json();
-                
+
                 if (data.status !== currentStatus) {
                   setNextStatusTime({
                     time: `${timeSlot.hour}:${timeSlot.minute}`,
                     newStatus: data.status,
-                    currentStatus: currentStatus
+                    currentStatus: currentStatus,
                   });
                   return;
                 }
               }
-              
+
               setNextStatusTime({
                 time: "No change in next 12 hours",
                 newStatus: null,
-                currentStatus: currentStatus
+                currentStatus: currentStatus,
               });
-              
             } catch (error) {
               console.error("Error predicting next status change:", error);
               setNextStatusTime(null);
@@ -1051,8 +1075,6 @@
                   >
                     Check Spot
                   </button>
-                  
-
 
                   {mapPredictionResult && (
                     <div
@@ -1109,7 +1131,8 @@
                       padding: "1.5rem",
                       borderRadius: "12px",
                       backgroundColor: "rgba(199, 243, 97, 0.08)",
-                      boxShadow: "0 8px 32px rgba(199, 243, 97, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
+                      boxShadow:
+                        "0 8px 32px rgba(199, 243, 97, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
                       backdropFilter: "blur(10px)",
                     }}
                   >
@@ -1128,7 +1151,7 @@
                     >
                       Status
                     </h4>
-                    
+
                     <p
                       style={{
                         margin: "1rem 0",
@@ -1141,93 +1164,101 @@
                         border: "1px solid rgba(199, 243, 97, 0.2)",
                       }}
                     >
-                      <span style={{ fontWeight: "600", color: "#fffed0" }}>Spot:</span>{" "}
-                      <span style={{ 
-                        fontWeight: "bold", 
-                        color: "#c7f361",
-                        fontSize: "20px",
-                        textShadow: "0 1px 2px rgba(0,0,0,0.3)"
-                      }}>
+                      <span style={{ fontWeight: "600", color: "#fffed0" }}>
+                        Spot:
+                      </span>{" "}
+                      <span
+                        style={{
+                          fontWeight: "bold",
+                          color: "#c7f361",
+                          fontSize: "20px",
+                          textShadow: "0 1px 2px rgba(0,0,0,0.3)",
+                        }}
+                      >
                         {mapSpot === "spot_1" ? "None" : mapSpot}
                       </span>
                     </p>
-                      
-                                              {nextStatusTime ? (
-                          <div>
-                            <p
-                              style={{
-                                margin: "1rem 0",
-                                fontSize: "16px",
-                                color: "#c4f1c4",
-                                lineHeight: "1.6",
-                                padding: "0.75rem",
-                                backgroundColor: "rgba(199, 243, 97, 0.05)",
-                                borderRadius: "8px",
-                                border: "1px solid rgba(199, 243, 97, 0.2)",
-                              }}
-                            >
-                              <span style={{ fontWeight: "600", color: "#fffed0" }}>Next Change:</span>{" "}
-                              <span
-                                style={{
-                                  fontWeight: "bold",
-                                  color: "#c7f361",
-                                  fontSize: "18px",
-                                  textShadow: "0 1px 2px rgba(0,0,0,0.3)"
-                                }}
-                              >
-                                {nextStatusTime.time}
-                              </span>
-                            </p>
-                            {nextStatusTime.newStatus && (
-                              <p
-                                style={{
-                                  margin: "1rem 0",
-                                  fontSize: "16px",
-                                  color: "#c4f1c4",
-                                  lineHeight: "1.6",
-                                  padding: "0.75rem",
-                                  backgroundColor: "rgba(199, 243, 97, 0.05)",
-                                  borderRadius: "8px",
-                                  border: "1px solid rgba(199, 243, 97, 0.2)",
-                                }}
-                              >
-                                <span style={{ fontWeight: "600", color: "#fffed0" }}>Will Become:</span>{" "}
-                                <span
-                                  style={{
-                                    fontWeight: "bold",
-                                    fontSize: "18px",
-                                    color:
-                                      nextStatusTime.newStatus === "Free"
-                                        ? "#10b981"
-                                        : "#ef4444",
-                                    textShadow: "0 1px 2px rgba(0,0,0,0.3)"
-                                  }}
-                                >
-                                  {nextStatusTime.newStatus}
-                                </span>
-                              </p>
-                            )}
-                          </div>
-                        ) : (
+
+                    {nextStatusTime ? (
+                      <div>
+                        <p
+                          style={{
+                            margin: "1rem 0",
+                            fontSize: "16px",
+                            color: "#c4f1c4",
+                            lineHeight: "1.6",
+                            padding: "0.75rem",
+                            backgroundColor: "rgba(199, 243, 97, 0.05)",
+                            borderRadius: "8px",
+                            border: "1px solid rgba(199, 243, 97, 0.2)",
+                          }}
+                        >
+                          <span style={{ fontWeight: "600", color: "#fffed0" }}>
+                            Next Change:
+                          </span>{" "}
+                          <span
+                            style={{
+                              fontWeight: "bold",
+                              color: "#c7f361",
+                              fontSize: "18px",
+                              textShadow: "0 1px 2px rgba(0,0,0,0.3)",
+                            }}
+                          >
+                            {nextStatusTime.time}
+                          </span>
+                        </p>
+                        {nextStatusTime.newStatus && (
                           <p
                             style={{
                               margin: "1rem 0",
                               fontSize: "16px",
                               color: "#c4f1c4",
-                              fontStyle: "italic",
-                              textAlign: "center",
-                              padding: "1rem",
+                              lineHeight: "1.6",
+                              padding: "0.75rem",
                               backgroundColor: "rgba(199, 243, 97, 0.05)",
                               borderRadius: "8px",
                               border: "1px solid rgba(199, 243, 97, 0.2)",
                             }}
                           >
-                            Click "Check Spot" to see timeline
+                            <span
+                              style={{ fontWeight: "600", color: "#fffed0" }}
+                            >
+                              Will Become:
+                            </span>{" "}
+                            <span
+                              style={{
+                                fontWeight: "bold",
+                                fontSize: "18px",
+                                color:
+                                  nextStatusTime.newStatus === "Free"
+                                    ? "#10b981"
+                                    : "#ef4444",
+                                textShadow: "0 1px 2px rgba(0,0,0,0.3)",
+                              }}
+                            >
+                              {nextStatusTime.newStatus}
+                            </span>
                           </p>
                         )}
-                        
-
                       </div>
+                    ) : (
+                      <p
+                        style={{
+                          margin: "1rem 0",
+                          fontSize: "16px",
+                          color: "#c4f1c4",
+                          fontStyle: "italic",
+                          textAlign: "center",
+                          padding: "1rem",
+                          backgroundColor: "rgba(199, 243, 97, 0.05)",
+                          borderRadius: "8px",
+                          border: "1px solid rgba(199, 243, 97, 0.2)",
+                        }}
+                      >
+                        Click "Check Spot" to see timeline
+                      </p>
+                    )}
+                  </div>
                 </div>
 
                 {/* Map Area */}
